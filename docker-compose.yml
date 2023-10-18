@@ -1,0 +1,19 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    command: python manage.py runserver 0.0.0.0:8000
+    depends_on:
+      - db
+    environment:
+      - DJANGO_SETTINGS_MODULE=currencycheckproject.settings.dev
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: currencycheckDB
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD:  admin

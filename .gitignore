@@ -1,0 +1,31 @@
+credentials.txt
+
+# Ignore virtual environment files
+venv/
+.env/
+
+# Ignore Python bytecode files
+__pycache__/
+*.pyc
+
+# Ignore local development settings
+*.log
+*.sqlite3
+
+# Ignore media and static files (if served locally)
+media/
+static/
+
+# Ignore database migrations
+**/migrations/*.py
+**/migrations/*.pyc
+
+# Ignore local configuration files
+local_settings.py
+
+# Ignore editor-specific files
+.vscode/
+.idea/
+*.sublime-*
+*.pycharm*
+*.DS_Store
