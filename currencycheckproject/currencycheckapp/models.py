@@ -9,6 +9,8 @@ class User(models.Model):
         return self.title
     
 class Currency(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE) #?
+    
     currency_name = models.CharField(max_length=200)
     country = models.CharField(max_length=200)
     ref_number = models.IntegerField()

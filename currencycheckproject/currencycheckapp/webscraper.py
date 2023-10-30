@@ -37,4 +37,4 @@ def extract_currency(html_stripped_data, currency):
             break
     return currency_data
 
-scrape_website()
+# scrape_website()
