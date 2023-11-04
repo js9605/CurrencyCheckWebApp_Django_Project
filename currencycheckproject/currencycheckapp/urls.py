@@ -5,4 +5,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('home/', views.homepage),
+    path('currency/', views.currency_view),
 ]
