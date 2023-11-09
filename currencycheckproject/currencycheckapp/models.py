@@ -22,8 +22,6 @@ class Currency(models.Model):
         for currency in currencies:
             scraped_data = scrape_website(currency)
 
-            print("HERE", scraped_data)
-
             currency_instance = cls(
                 currency_name=scraped_data.get('currency_name'),
                 currency_shortcut=scraped_data.get('currency_shortcut'),

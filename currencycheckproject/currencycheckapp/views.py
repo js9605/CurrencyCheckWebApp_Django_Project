@@ -15,7 +15,7 @@ def homepage(request):
 
 class CurrencyView(APIView):
     def get(self, request, *args, **kwargs):
-        currency_codes = request.GET.get('currency_codes', '')
+        currency_codes = kwargs.get('currency_codes', '')
         currencies = currency_codes.split(',')
         Currency.objects.all().delete()
         Currency.save_data(currencies)
