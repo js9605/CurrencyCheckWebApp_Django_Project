@@ -1,17 +1,23 @@
 from .webscraper import scrape_website
+from .models import Currency
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Currency
-from django.http import JsonResponse
+from rest_framework.decorators import api_view
 
-def homepage():
+
+@api_view(['GET'])
+def homepage(request):
+    if request.method != "GET":
+        return Response({"detail": "GET not allowed"}, status=405)
     currencies = ["USD", "CHF"]
-    display_data = []
-    for currency in currencies:
-        display_data.extend(scrape_website(currency))
-    return JsonResponse(display_data, safe=False)
+    display_data = {"currencies": {}}
+
+    for currency_code in currencies:
+        currency_data = scrape_website(currency_code)
+        display_data["currencies"][currency_code] = currency_data
+    return Response(display_data)
 
 class CurrencyView(APIView):
     def get(self, request, *args, **kwargs):
