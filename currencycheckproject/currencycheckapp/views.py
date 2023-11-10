@@ -1,3 +1,4 @@
+from .serializers import CurrencySerializer
 from .webscraper import scrape_website
 from .models import Currency
 
@@ -22,15 +23,16 @@ def homepage(request):
 class CurrencyView(APIView):
     def get(self, request, *args, **kwargs):
         currency_codes = kwargs.get('currency_codes', '')
-        currencies = currency_codes.split(',')
+        currency_codes = currency_codes.split(',')
         Currency.objects.all().delete()
-        Currency.save_data(currencies)
+        Currency.save_data(currency_codes)
         saved_currencies = Currency.objects.all()
-        serialized_currencies = [{'currency_name': currency.currency_name,
-                                   'country': currency.country, 'average_exchange_rate': currency.average_exchange_rate
-                                   } for currency in saved_currencies]
+        serializer = CurrencySerializer(saved_currencies, many=True)
+        # serialized_currencies = [{'currency_name': currency.currency_name,
+        #                            'country': currency.country, 'average_exchange_rate': currency.average_exchange_rate
+        #                            } for currency in saved_currencies]
 
-        return Response(serialized_currencies, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
  

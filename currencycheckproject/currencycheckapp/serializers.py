@@ -1,4 +1,14 @@
 from rest_framework import serializers
+from .models import Currency
 
-class CurrencyInputSerializer(serializers.Serializer):
-    currencies = serializers.ListField(child=serializers.CharField(), required=True)
+class CurrencySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Currency
+        fields = [
+                'currency_name',
+                'country',
+                'ref_number',
+                'purchase_rate',
+                'selling_rate',
+                'average_exchange_rate',
+        ]

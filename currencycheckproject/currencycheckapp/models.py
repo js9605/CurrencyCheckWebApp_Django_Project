@@ -4,7 +4,6 @@ from .webscraper import scrape_website
 
 class Currency(models.Model):
     currency_name = models.CharField(max_length=120)
-    currency_shortcut = models.CharField(max_length=3, default='USD')
     country = models.CharField(max_length=150)
     ref_number = models.IntegerField()
     purchase_rate = models.DecimalField(max_digits=10, decimal_places=4) 
@@ -18,7 +17,6 @@ class Currency(models.Model):
 
             currency_instance = cls(
                 currency_name=scraped_data.get('currency_name'),
-                currency_shortcut=scraped_data.get('currency_shortcut'),
                 country=scraped_data.get('country'),
                 ref_number=scraped_data.get('ref_number'),
                 purchase_rate=scraped_data.get('purchase_rate'),
