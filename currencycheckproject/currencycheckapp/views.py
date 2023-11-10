@@ -6,7 +6,7 @@ from rest_framework import status
 from .models import Currency
 from django.http import JsonResponse
 
-def homepage(request):
+def homepage():
     currencies = ["USD", "CHF"]
     display_data = []
     for currency in currencies:
@@ -20,7 +20,9 @@ class CurrencyView(APIView):
         Currency.objects.all().delete()
         Currency.save_data(currencies)
         saved_currencies = Currency.objects.all()
-        serialized_currencies = [{'currency_name': currency.currency_name, 'country': currency.country} for currency in saved_currencies]
+        serialized_currencies = [{'currency_name': currency.currency_name,
+                                   'country': currency.country, 'average_exchange_rate': currency.average_exchange_rate
+                                   } for currency in saved_currencies]
 
         return Response(serialized_currencies, status=status.HTTP_200_OK)
 
