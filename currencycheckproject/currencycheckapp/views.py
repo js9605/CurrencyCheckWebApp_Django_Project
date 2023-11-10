@@ -20,7 +20,9 @@ def homepage(request):
         display_data["currencies"][currency_code] = currency_data
     return Response(display_data)
 
+
 class CurrencyView(APIView):
+
     @staticmethod
     def strip_url(url_kwargs):
         currency_codes = url_kwargs.get('currency_codes', '')
