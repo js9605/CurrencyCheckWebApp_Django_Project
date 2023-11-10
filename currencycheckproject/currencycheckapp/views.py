@@ -21,18 +21,20 @@ def homepage(request):
     return Response(display_data)
 
 class CurrencyView(APIView):
-    def get(self, request, *args, **kwargs):
-        currency_codes = kwargs.get('currency_codes', '')
+    @staticmethod
+    def strip_url(url_kwargs):
+        currency_codes = url_kwargs.get('currency_codes', '')
         currency_codes = currency_codes.split(',')
+        return currency_codes
+
+    def get(self, request, *args, **kwargs):
+        currency_codes = self.strip_url(kwargs)
         Currency.objects.all().delete()
         Currency.save_data(currency_codes)
         saved_currencies = Currency.objects.all()
-        serializer = CurrencySerializer(saved_currencies, many=True)
-        # serialized_currencies = [{'currency_name': currency.currency_name,
-        #                            'country': currency.country, 'average_exchange_rate': currency.average_exchange_rate
-        #                            } for currency in saved_currencies]
+        serializer_data = CurrencySerializer(saved_currencies, many=True).data
+        return Response(serializer_data, status=status.HTTP_200_OK)
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
  
