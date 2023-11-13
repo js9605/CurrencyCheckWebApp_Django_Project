@@ -1,5 +1,6 @@
 from django.db import models
-from pygments.lexers import get_lexer_by_name
+# from pygments.lexers import get_lexer_by_name
+from django.contrib.auth.models import User
 # from pygments.formatters.html import HtmlFormatter
 # from pygments import highlight
 
@@ -33,3 +34,11 @@ class Currency(models.Model):
 
     def __str__(self):
         return self.currency_name
+    
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    currencies = models.ManyToManyField(Currency)
+
+    def __str__(self):
+        return self.user.username

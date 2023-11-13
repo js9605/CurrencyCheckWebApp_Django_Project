@@ -1,12 +1,11 @@
-from .serializers import CurrencySerializer
+from .serializers import CurrencySerializer, UserSerializer, UserProfileSerializer
 from .webscraper import scrape_website
-from .models import Currency
+from .models import Currency, UserProfile
 
 from django.contrib.auth.models import User
-from rest_framework import generics
+from rest_framework import viewsets, generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
 from rest_framework.decorators import api_view
 
 
@@ -38,8 +37,19 @@ class CurrencyView(APIView):
         saved_currencies = Currency.objects.all()
         serializer_data = CurrencySerializer(saved_currencies, many=True).data
         return Response(serializer_data, status=status.HTTP_200_OK)
+    
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def perform_create(self, serializer):
+        user = serializer.save()
+        UserProfile.objects.create(user=user)
 
 
-
+class UserRegistrationView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
  
