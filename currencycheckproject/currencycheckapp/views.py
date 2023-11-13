@@ -2,6 +2,8 @@ from .serializers import CurrencySerializer
 from .webscraper import scrape_website
 from .models import Currency
 
+from django.contrib.auth.models import User
+from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -36,6 +38,7 @@ class CurrencyView(APIView):
         saved_currencies = Currency.objects.all()
         serializer_data = CurrencySerializer(saved_currencies, many=True).data
         return Response(serializer_data, status=status.HTTP_200_OK)
+
 
 
 

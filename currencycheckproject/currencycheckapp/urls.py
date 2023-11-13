@@ -1,8 +1,9 @@
 from rest_framework.routers import DefaultRouter
-from . import views
+from .views import CurrencyView, homepage
 from django.urls import path, include
 
 urlpatterns = [
-    path('home/', views.homepage),
-    path('currency/<str:currency_codes>/', views.CurrencyView.as_view(), name='currency_view'),
+    path('home/', homepage),
+    path('currency/<str:currency_codes>/', CurrencyView.as_view(), name='currency_view'),
+    # path('users/create/', CreateUserView.as_view()),
 ]
