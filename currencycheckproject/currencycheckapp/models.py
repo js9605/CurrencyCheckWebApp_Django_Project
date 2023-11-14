@@ -5,7 +5,7 @@ from .webscraper import scrape_website
 
 
 class Currency(models.Model):
-    owner = models.ForeignKey('auth.User', related_name='snippets', on_delete=models.CASCADE)
+    # owner = models.ForeignKey('auth.User', related_name='snippets', on_delete=models.CASCADE, null=True)
 
     currency_name = models.CharField(max_length=120)
     country = models.CharField(max_length=150)

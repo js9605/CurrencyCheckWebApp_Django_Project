@@ -49,6 +49,7 @@ class UserViewSet(viewsets.ModelViewSet):
         UserProfile.objects.create(user=user)
 
 
+
 class UserRegistrationView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserRegistrationSerializer
