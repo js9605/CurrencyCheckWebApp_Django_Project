@@ -1,4 +1,4 @@
-from .serializers import CurrencySerializer, UserSerializer, UserProfileSerializer
+from .serializers import CurrencySerializer, UserSerializer, UserRegistrationSerializer
 from .webscraper import scrape_website
 from .models import Currency, UserProfile
 
@@ -7,6 +7,7 @@ from rest_framework import viewsets, generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+
 
 
 @api_view(['GET'])
@@ -50,6 +51,6 @@ class UserViewSet(viewsets.ModelViewSet):
 
 class UserRegistrationView(generics.CreateAPIView):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserRegistrationSerializer
 
  

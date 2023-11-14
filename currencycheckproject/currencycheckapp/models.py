@@ -1,14 +1,11 @@
 from django.db import models
-# from pygments.lexers import get_lexer_by_name
 from django.contrib.auth.models import User
-# from pygments.formatters.html import HtmlFormatter
-# from pygments import highlight
 
 from .webscraper import scrape_website
 
 
 class Currency(models.Model):
-    owner = models.ForeignKey('auth.User', related_name='snippets', on_delete=models.CASCADE, null=True)
+    owner = models.ForeignKey('auth.User', related_name='snippets', on_delete=models.CASCADE)
 
     currency_name = models.CharField(max_length=120)
     country = models.CharField(max_length=150)

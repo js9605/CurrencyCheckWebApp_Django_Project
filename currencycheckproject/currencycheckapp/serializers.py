@@ -25,6 +25,13 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'currencies']
 
 
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'password']
+        extra_kwargs = {'password': {'write_only': True}}
+
+
 class UserSerializer(serializers.ModelSerializer):
     profile = UserProfileSerializer()
 
