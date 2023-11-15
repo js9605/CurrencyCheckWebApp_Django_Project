@@ -5,7 +5,7 @@ from .webscraper import scrape_website
 
 
 class Currency(models.Model):
-    # owner = models.ForeignKey('auth.User', related_name='snippets', on_delete=models.CASCADE, null=True)
+    owner = models.ForeignKey('auth.User', related_name='snippets', on_delete=models.CASCADE, null=True)
 
     currency_name = models.CharField(max_length=120)
     country = models.CharField(max_length=150)
@@ -35,7 +35,7 @@ class Currency(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    currencies = models.ManyToManyField(Currency)
+    currencies_to_scrape = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.user.username

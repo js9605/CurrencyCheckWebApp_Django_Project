@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Currencies to Scrape</title>
+</head>
+<body>
+
+<h2>Set Currencies to Scrape</h2>
+
+{% if user.is_authenticated %}
+    <p>Welcome, {{ user.username }}!</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <label for="currencies">Enter Currencies (comma-separated):</label>
+        <input type="text" id="currencies" name="currencies" required>
+        
+        <button type="submit">Save Currencies</button>
+    </form>
+
+    {% if created %}
+        <p>New user profile created for {{ user.username }}.</p>
+    {% endif %}
+    
+    <!-- Display saved currencies -->
+    {% if saved_currencies %}
+        <p>Saved Currencies: {{ saved_currencies }}</p>
+    {% else %}
+        <p>No currencies saved yet.</p>
+    {% endif %}
+    
+{% else %}
+    <p>Please log in to set currencies.</p>
+{% endif %}
+
+</body>
+</html>
