@@ -34,6 +34,7 @@ class UserRegistrationView(generics.CreateAPIView):
 
 
 @login_required
+@api_view(['GET','POST'])
 def set_currencies_to_scrape(request):
     user_profile, created = UserProfile.objects.get_or_create(user=request.user)
     print("User created: ", created)
@@ -44,6 +45,12 @@ def set_currencies_to_scrape(request):
         user_profile.save()
 
     saved_currencies = user_profile.currencies_to_scrape if user_profile.currencies_to_scrape else "No currencies saved."
+
+    Currency.objects.all().delete()
+    Currency.save_data(saved_currencies)
+
+    saved_currencies_data = Currency.objects.all()
+    serializer_data = CurrencySerializer(saved_currencies_data, many=True).data
 
     return render(request, 'set_currencies_to_scrape.html', {'saved_currencies': saved_currencies})
 

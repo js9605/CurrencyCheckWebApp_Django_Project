@@ -16,12 +16,16 @@ def html_strip(url):
     
     return data
 
+
+#TODO If i add currency_name as first scraped data starts with USD and ref_number is at purchase_rate
+# If I comment out currency_name scraped data starts with DOLAR and ref_number is at country
 def extract_currency(html_stripped_data, currency):
     currency_data = {}
+    print("html_stripped_data: ", html_stripped_data)
     for index, element in enumerate(html_stripped_data):
         if currency in element:
             # currency_data['currency_name'] = html_stripped_data[index]
-            currency_data['currency_name'] = html_stripped_data[index]
+            currency_data['currency_shortcut'] = html_stripped_data[index]
             currency_data['country'] = html_stripped_data[index + 1]
             currency_data['ref_number'] = html_stripped_data[index + 2]
             currency_data['purchase_rate'] = html_stripped_data[index + 3]

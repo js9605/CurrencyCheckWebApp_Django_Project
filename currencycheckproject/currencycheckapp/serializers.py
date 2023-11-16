@@ -8,7 +8,8 @@ class CurrencySerializer(serializers.ModelSerializer):
     class Meta:
         model = Currency
         fields = [
-                'currency_name',
+                # 'currency_name',
+                'currency_shortcut',
                 'country',
                 'ref_number',
                 'purchase_rate',
