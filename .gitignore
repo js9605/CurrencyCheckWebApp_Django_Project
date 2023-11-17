@@ -1,7 +1,7 @@
 credentials.txt
 
 # Ignore virtual environment files
-venv/
+.venv/
 .env/
 
 # Ignore Python bytecode files

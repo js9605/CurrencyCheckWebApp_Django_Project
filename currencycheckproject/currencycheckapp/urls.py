@@ -1,13 +1,15 @@
 from rest_framework.routers import DefaultRouter
-from .views import CurrencyView, homepage, UserRegistrationView, set_currencies_to_scrape
-from django.urls import path
+from .views import CurrencyViewSet, CurrenciesToScrapeViewSet
+from django.urls import path, include
 
 
-#TODO Use DefaultRouter?
+router = DefaultRouter()
+router.register(r'currencies', CurrencyViewSet, basename='currency')
+router.register(r'upload_currencies', CurrenciesToScrapeViewSet, basename='currency')
+
 urlpatterns = [
-    path('home/', homepage),
-    path('currency/<str:currency_codes>/', CurrencyView.as_view(), name='currency-view'),
-    path('register/', UserRegistrationView.as_view(), name='user-registration'),
-    path('user/', set_currencies_to_scrape, name='user-view-data'),
-
+    #TODO scrap 2 popular currencies and display
+    path('api/', include(router.urls)), #TODO download data
+    # /api/currencies/
+    # /api/currencies/custom_action/
 ]

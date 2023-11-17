@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 
-from .models import Currency, UserProfile
+from .models import CurrenciesToScrape, Currency
 
 
 class CurrencySerializer(serializers.ModelSerializer):
@@ -16,26 +16,20 @@ class CurrencySerializer(serializers.ModelSerializer):
                 'selling_rate',
                 'average_exchange_rate',
         ]
-
-
-class UserProfileSerializer(serializers.ModelSerializer):
-    currencies = serializers.PrimaryKeyRelatedField(many=True, queryset=Currency.objects.all())
-
+    
+class CurrenciesToScrapeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UserProfile
-        fields = ['id', 'user', 'currencies']
+        model = CurrenciesToScrape
+        fields = [
+            'user',
+            'currencies_to_scrape',
+        ]
 
 
-class UserRegistrationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['username', 'password']
-        extra_kwargs = {'password': {'write_only': True}}
 
+# class UserProfileSerializer(serializers.ModelSerializer):
+#     currencies = serializers.PrimaryKeyRelatedField(many=True, queryset=Currency.objects.all())
 
-class UserSerializer(serializers.ModelSerializer):
-    profile = UserProfileSerializer()
-
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'profile']
+#     class Meta:
+#         model = CurrenciesToScrape
+#         fields = ['id', 'user', 'currencies']
