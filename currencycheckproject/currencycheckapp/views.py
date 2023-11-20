@@ -11,13 +11,13 @@ class CurrencyViewSet(viewsets.ModelViewSet):
     serializer_class = CurrencySerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    # @action(detail=False, methods=['get'])
     def custom_action(self, request):
-        # Your custom action logic here
+        # logic here
         return Response({"message": "Custom action executed"}, status=200)
     
 class CurrenciesToScrapeViewSet(viewsets.ModelViewSet):
     queryset = CurrenciesToScrape.objects.all()
-    serializer_class = CurrenciesToScrapeSerializer
+    print(type(queryset))
+    serializer_class = CurrenciesToScrapeSerializer#.validate_currencies_to_scrape()
     permission_classes = [permissions.IsAuthenticated]
 

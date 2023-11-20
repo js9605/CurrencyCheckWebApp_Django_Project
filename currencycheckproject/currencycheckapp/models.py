@@ -16,7 +16,7 @@ class Currency(models.Model):
     
 
 class CurrenciesToScrape(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     currencies_to_scrape = models.TextField(blank=True, null=True)
 
     def __str__(self):

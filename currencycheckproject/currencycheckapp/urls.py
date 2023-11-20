@@ -8,8 +8,7 @@ router.register(r'currencies', CurrencyViewSet, basename='currency')
 router.register(r'upload_currencies', CurrenciesToScrapeViewSet, basename='currency')
 
 urlpatterns = [
-    #TODO scrap 2 popular currencies and display
-    path('api/', include(router.urls)), #TODO download data
     # /api/currencies/
     # /api/currencies/custom_action/
+    path('api/', include(router.urls)), #Add data validation for inserted list of currencies(str)
 ]

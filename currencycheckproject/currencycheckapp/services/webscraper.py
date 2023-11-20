@@ -16,9 +16,6 @@ def html_strip(url):
     
     return data
 
-
-#TODO If i add currency_name as first scraped data starts with USD and ref_number is at purchase_rate
-# If I comment out currency_name scraped data starts with DOLAR and ref_number is at country
 def extract_currency(html_stripped_data, currency):
     currency_data = {}
     print("html_stripped_data: ", html_stripped_data)
