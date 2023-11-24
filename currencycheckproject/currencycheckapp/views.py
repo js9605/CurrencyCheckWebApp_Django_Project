@@ -24,9 +24,11 @@ class LoadCurrencyDataViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
-        existing_instance = self.queryset.filter(user=self.request.user).all()
+        existing_instance = self.queryset.filter(user=self.request.user).first()
         if existing_instance:
             existing_instance.delete()
-            save_currency_data(list(existing_instance)) #TODO list(existing_instance) ~ Empty list
+            currencies_to_scrape = existing_instance.currencies_to_scrape.split(',')
+            print(currencies_to_scrape)
+            save_currency_data(currencies_to_scrape) #TODO list(existing_instance) ~ Empty list
 
         return super().create(request, *args, **kwargs)

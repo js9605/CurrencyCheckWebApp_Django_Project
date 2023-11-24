@@ -3,7 +3,7 @@ from currencycheckapp.models import Currency
 
 
 def save_currency_data(currencies):
-    print("SAVING CURRENCIES: ", currencies)
+    print("save_currency_data(currencies): ", currencies)
     for currency in currencies:
         scraped_data = scrape_website(currency)
 
@@ -14,7 +14,5 @@ def save_currency_data(currencies):
             purchase_rate=scraped_data.get('purchase_rate'),
             selling_rate=scraped_data.get('selling_rate'),
             average_exchange_rate=scraped_data.get('average_exchange_rate'),
-            owner=scraped_data.get('owner')
+            user=scraped_data.get('user')
         )
-
-        print(Currency.objects.all)
