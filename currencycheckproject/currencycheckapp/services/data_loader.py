@@ -1,8 +1,9 @@
-from currencycheckapp.webscraper import scrape_website
-from .models import Currency
-#TODO Imports problem
+from .webscraper import scrape_website
+from currencycheckapp.models import Currency
+
 
 def save_currency_data(currencies):
+    print("SAVING CURRENCIES: ", currencies)
     for currency in currencies:
         scraped_data = scrape_website(currency)
 
@@ -15,3 +16,5 @@ def save_currency_data(currencies):
             average_exchange_rate=scraped_data.get('average_exchange_rate'),
             owner=scraped_data.get('owner')
         )
+
+        print(Currency.objects.all)

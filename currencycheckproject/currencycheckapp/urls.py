@@ -1,11 +1,11 @@
 from rest_framework.routers import DefaultRouter
-from .views import CurrencyViewSet, CurrenciesToScrapeViewSet
+from .views import LoadCurrencyDataViewSet, DisplayCurrencyDataViewSet
 from django.urls import path, include
 
 
 router = DefaultRouter()
-router.register(r'currencies', CurrencyViewSet, basename='currency')
-router.register(r'upload_currencies', CurrenciesToScrapeViewSet, basename='currency')
+router.register(r'currencies', DisplayCurrencyDataViewSet, basename='currency-display')
+router.register(r'upload_currencies', LoadCurrencyDataViewSet, basename='currency-load')
 
 urlpatterns = [
     # /api/currencies/

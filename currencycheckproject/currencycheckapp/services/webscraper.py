@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 
 def scrape_website(currency, url='https://www.mbank.pl/serwis-ekonomiczny/kursy-walut/'):
     extracted_currency = extract_currency(html_strip(url), currency)
-    print("HERE: ", extracted_currency)
     return extracted_currency
 
 def html_strip(url):

@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 class Currency(models.Model):
-    owner = models.ForeignKey(User, related_name='currencies', on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, related_name='currencies', on_delete=models.CASCADE, null=True)
     currency_shortcut = models.CharField(max_length=50)
     country = models.CharField(max_length=150)
     ref_number = models.IntegerField()
