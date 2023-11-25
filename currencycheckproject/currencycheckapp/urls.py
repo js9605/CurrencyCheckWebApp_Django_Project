@@ -8,7 +8,5 @@ router.register(r'currencies', DisplayCurrencyDataViewSet, basename='currency-di
 router.register(r'upload_currencies', LoadCurrencyDataViewSet, basename='currency-load')
 
 urlpatterns = [
-    # /api/currencies/
-    # /api/currencies/custom_action/
-    path('api/', include(router.urls)), #Add data validation for inserted list of currencies(str)
+    path('', include(router.urls)),
 ]

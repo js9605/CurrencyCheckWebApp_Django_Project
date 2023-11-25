@@ -15,6 +15,7 @@ def html_strip(url):
     
     return data
 
+#TODO ValueError: Field 'ref_number' expected a number but got 'EUGiW'. if currency = 'EUR'
 def extract_currency(html_stripped_data, currency):
     currency_data = {}
     # print("html_stripped_data: ", html_stripped_data)
