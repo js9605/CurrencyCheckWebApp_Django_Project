@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exchange Rates</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+Wy2n49ziBhA5t5z9HuhdsJZyYFq83bomF"
+        crossorigin="anonymous">
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <h1 class="mb-4">Exchange Rates</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Currency</th>
+                    <th scope="col">Country</th>
+                    <th scope="col">Purchase Rate</th>
+                    <th scope="col">Selling Rate</th>
+                    <th scope="col">Average Exchange Rate</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for currency in currencies %}
+                <tr>
+                    <td>{{ currency.currency_shortcut }}</td>
+                    <td>{{ currency.country }}</td>
+                    <td>{{ currency.purchase_rate }}</td>
+                    <td>{{ currency.selling_rate }}</td>
+                    <td>{{ currency.average_exchange_rate }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Include Bootstrap JS (popper.js and jQuery) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-i7xe5GQNl1HIqom2u1zxuex+d4/cQ4fIbMxCqnlz2Ap+Zdk9g3xhCuN5iKGQu6zF"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+Wy2n49ziBhA5t5z9HuhdsJZyYFq83bomF"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

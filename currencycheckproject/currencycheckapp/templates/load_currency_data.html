@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Load Currency Data</title>
+</head>
+<body>
+
+    <h2>Load Currency Data</h2>
+
+    <form method="post" action="{% url 'currency-load-list' %}">
+        {% csrf_token %}
+        <label for="currencies_to_scrape">Enter currencies to scrape (comma-separated):</label>
+        <input type="text" name="currencies_to_scrape" id="currencies_to_scrape" required>
+
+        <button type="submit">Load Data</button>
+    </form>
+
+</body>
+</html>
