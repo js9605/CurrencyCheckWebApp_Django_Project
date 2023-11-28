@@ -16,4 +16,4 @@ urlpatterns = [
 # Display saved currencies for specific user
 # Send mail if currency treshold is exceeded (up/down treshold)
 
-# Check serializer.is_valid() - how does it work?
+# Check serializer.is_valid()

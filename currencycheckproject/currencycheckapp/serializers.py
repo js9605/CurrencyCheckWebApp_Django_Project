@@ -38,12 +38,3 @@ class CurrenciesToScrapeSerializer(serializers.ModelSerializer):
     #         raise serializers.ValidationError("Each currency must be a string.")
 
     #     return value
-
-
-
-# class UserProfileSerializer(serializers.ModelSerializer):
-#     currencies = serializers.PrimaryKeyRelatedField(many=True, queryset=Currency.objects.all())
-
-#     class Meta:
-#         model = CurrenciesToScrape
-#         fields = ['id', 'user', 'currencies']
