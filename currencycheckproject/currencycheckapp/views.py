@@ -2,6 +2,7 @@ from .serializers import CurrencySerializer, CurrenciesToScrapeSerializer
 from .models import Currency, CurrenciesToScrape
 from .services.data_loader import save_currency_data
 
+from django.utils import timezone
 from django.shortcuts import render
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
@@ -15,9 +16,11 @@ class DisplayCurrencyDataViewSet(viewsets.ModelViewSet):
         user_currencies = Currency.objects.filter(user=self.request.user)
         return user_currencies
     
-    # TODO Clear data after some time
     @action(detail=False, methods=['get'])
     def display(self, request):
+        cutoff_date = timezone.now() - timezone.timedelta(weeks=1)
+        Currency.objects.filter(user=request.user, stored_date__lt=cutoff_date).delete()
+
         user_currencies = self.get_queryset()
 
         return render(request, 'exchange_rates.html', {'currencies': user_currencies, 'user': request.user})
