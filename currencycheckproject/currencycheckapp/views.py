@@ -19,7 +19,7 @@ class DisplayCurrencyDataViewSet(viewsets.ModelViewSet):
     def display(self, request):
         user_currencies = self.get_queryset()
 
-        return render(request, 'exchange_rates.html', {'currencies': user_currencies})
+        return render(request, 'exchange_rates.html', {'currencies': user_currencies, 'user': request.user})
 
     
 class LoadCurrencyDataViewSet(viewsets.ModelViewSet):
@@ -35,5 +35,5 @@ class LoadCurrencyDataViewSet(viewsets.ModelViewSet):
             save_currency_data(currencies_to_scrape, self.request.user)
             existing_instance.delete()
 
-        return render(request, 'load_currency_data.html')
+        return render(request, 'load_currency_data.html', {'user': request.user})
 

@@ -10,6 +10,8 @@
 
     <h2>Load Currency Data</h2>
 
+    <p>Logged in as: {{ user.username }}</p>
+
     <form method="post" action="{% url 'currency-load-list' %}">
         {% csrf_token %}
         <label for="currencies_to_scrape">Enter currencies to scrape (comma-separated):</label>
