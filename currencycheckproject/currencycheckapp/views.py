@@ -15,6 +15,7 @@ class DisplayCurrencyDataViewSet(viewsets.ModelViewSet):
         user_currencies = Currency.objects.filter(user=self.request.user)
         return user_currencies
     
+    # TODO Clear data after some time
     @action(detail=False, methods=['get'])
     def display(self, request):
         user_currencies = self.get_queryset()

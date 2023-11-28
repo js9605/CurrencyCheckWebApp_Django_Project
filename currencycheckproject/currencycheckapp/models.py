@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -10,6 +11,7 @@ class Currency(models.Model):
     purchase_rate = models.DecimalField(max_digits=10, decimal_places=4)
     selling_rate = models.DecimalField(max_digits=10, decimal_places=4)
     average_exchange_rate = models.DecimalField(max_digits=10, decimal_places=4)
+    stored_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.currency_shortcut
