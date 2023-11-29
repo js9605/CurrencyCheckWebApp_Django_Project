@@ -15,20 +15,21 @@ def html_strip(url):
     
     return data
 
-#TODO ValueError: Field 'ref_number' expected a number but got 'EUGiW'. if currency = 'EUR'
+#TODO ValueError: Field 'ref_number' expected a number but got 'EUGiW'(country). if currency = 'EUR'
+# Take care of that exception in minimalistic way
 def extract_currency(html_stripped_data, currency):
     currency_data = {}
     for index, element in enumerate(html_stripped_data):
         if currency in element:
-            # currency_data['currency_name'] = html_stripped_data[index]
-            currency_data['currency_shortcut'] = html_stripped_data[index]
-            currency_data['country'] = html_stripped_data[index + 1]
-            currency_data['ref_number'] = html_stripped_data[index + 2]
-            currency_data['purchase_rate'] = html_stripped_data[index + 3]
-            currency_data['selling_rate'] = html_stripped_data[index + 4]
-            currency_data['average_exchange_rate'] = html_stripped_data[index + 5]
+            try:
+                currency_data['currency_shortcut'] = html_stripped_data[index]
+                currency_data['country'] = html_stripped_data[index + 1]
+                currency_data['ref_number'] = int(html_stripped_data[index + 2])
+                currency_data['purchase_rate'] = html_stripped_data[index + 3]
+                currency_data['selling_rate'] = html_stripped_data[index + 4]
+                currency_data['average_exchange_rate'] = html_stripped_data[index + 5]
+            except ValueError:
+                print("ValueError - You're scraping: ", currency) #TODO Update exception logic
             break
 
     return currency_data
-
-# scrape_website()

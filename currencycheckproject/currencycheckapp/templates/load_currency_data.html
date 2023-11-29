@@ -12,12 +12,10 @@
 
     <p>Logged in as: {{ user.username }}</p>
 
-    <form method="post" action="{% url 'currency-load-list' %}">
+    <form method="post" action="{% url 'currency-load' %}">
         {% csrf_token %}
         <label for="currencies_to_scrape">Enter currencies to scrape (comma-separated):</label>
         <input type="text" name="currencies_to_scrape" id="currencies_to_scrape" required placeholder="e.g., USD, EUR, JPY">
-
-        <p>Examples: USD, EUR, JPY, GBP, AUD, CAD, CHF, CNY, INR, BRL</p>
 
         <button type="submit">Load Data</button>
     </form>
