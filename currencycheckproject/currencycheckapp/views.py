@@ -33,7 +33,6 @@ class LoadCurrencyDataView(APIView):
         return render(request, 'load_currency_data.html', {'user': request.user})
 
     def post(self, request, *args, **kwargs):
-        print("Enter create method")
         currencies_to_scrape = request.data.get('currencies_to_scrape', 'key_is_not_found').strip()
 
         if currencies_to_scrape:
@@ -43,13 +42,10 @@ class LoadCurrencyDataView(APIView):
             )
 
             if created:
-                print("log: DEBUG")
-                print("log: currencies_to_scrape: ", currencies_to_scrape)
-                print("log: created: ", created)
                 save_currency_data(currencies_to_scrape, request.user)
                 return render(request, 'load_currency_data.html', {'user': request.user})
             else:
-                print("currencies_to_scrape not created")
+                print("log: currencies_to_scrape not created")
                 return render(request, 'load_currency_data.html', {'user': request.user})
         else:
             return Response({'error': 'Currencies cannot be empty.'}, status=400)

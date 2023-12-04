@@ -15,9 +15,4 @@ urlpatterns = [
 
 
 # TODO fix
-# Scraper performs scraping twice by which calling one currency 
-# once saves two values in "display" url
-
-# Information about the saved date and time of currency scraping 
-# does not display in "display" url
 

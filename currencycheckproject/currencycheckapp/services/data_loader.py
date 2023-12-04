@@ -3,11 +3,9 @@ from currencycheckapp.models import Currency
 
 
 def save_currency_data(currencies, user):
-    print("log2: enter save_currency_data")
     currencies_list = currencies.strip().split(',')
     
     for currency in currencies_list:
-        print("log: enter forloop")
         
         scraped_data = scrape_website(currency)
 

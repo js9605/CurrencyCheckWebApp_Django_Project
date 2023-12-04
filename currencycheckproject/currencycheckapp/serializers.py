@@ -15,6 +15,7 @@ class CurrencySerializer(serializers.ModelSerializer):
                 'purchase_rate',
                 'selling_rate',
                 'average_exchange_rate',
+                'stored_date',
         ]
 
  
