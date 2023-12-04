@@ -18,12 +18,7 @@ class CurrencySerializer(serializers.ModelSerializer):
                 'stored_date',
         ]
 
- 
-#TODO Add data validation for inserted list of currencies(str)
-# Validate if data contains shortcuts matching shortcuts saved in 
-# database(list of all known shortcuts to compare). If data cant be parsed 
-# to list of string containing shortcuts, return "incorrect_data_exception"
-# validate if data entered by the user is not repeated 
+  
 class CurrenciesToScrapeSerializer(serializers.ModelSerializer):
     class Meta:
         model = CurrenciesToScrape

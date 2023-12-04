@@ -10,9 +10,16 @@ urlpatterns = [
 
 
 # TODO MAIN
-# Display saved currencies for specific user
-# Send mail if currency treshold is exceeded (up/down treshold)
+# 1 Fix EUR parsing 
+# 2 Load data for scraping and display on the same site (Top values are latest data)
+# 3 Add validation (did user provided the correct names of the currency?)
+# 4 Use Docker
+# 5 Make frontend prettier
+# 6 Logging with OAuth
+# 7 Send mail with notification about exceeted currency values
+# - Ability to assign upper and lower limits for a specific currency
+# - Testing these currency boundaries in real time
+# 8 Testing
+# 9 Github Docs - Create understandable and professional usage documentation
 
-
-# TODO fix
 
