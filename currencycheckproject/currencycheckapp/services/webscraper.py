@@ -2,11 +2,13 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def scrape_website(currency, url='https://www.mbank.pl/serwis-ekonomiczny/kursy-walut/'):
-    extracted_currency = extract_currency(html_strip(url), currency)
+DEFAULT_URL = 'https://www.mbank.pl/serwis-ekonomiczny/kursy-walut/'
+
+def scrape_website(currency, url=DEFAULT_URL):
+    extracted_currency = extract_currency(get_html_elements(url), currency)
     return extracted_currency
 
-def html_strip(url):
+def get_html_elements(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
 
@@ -19,7 +21,10 @@ def html_strip(url):
 def extract_currency(html_stripped_data, currency):
     currency_data = {}
     for index, element in enumerate(html_stripped_data):
-        if currency in element:
+        if currency == element:
+            print("DEBUG html_stripped_data: ", html_stripped_data[index:index + 6])
+            # TODO Porownaj cale wyrazy a nie tylko pierwsze litery skrotu (Chyba 
+            # wlasnie dlatego bierze zle indeksy euro bo eur+o ma 3 pierwsze litery skrotu EUR)
             try:
                 currency_data['currency_shortcut'] = html_stripped_data[index]
                 currency_data['country'] = html_stripped_data[index + 1]
@@ -27,8 +32,8 @@ def extract_currency(html_stripped_data, currency):
                 currency_data['purchase_rate'] = html_stripped_data[index + 3]
                 currency_data['selling_rate'] = html_stripped_data[index + 4]
                 currency_data['average_exchange_rate'] = html_stripped_data[index + 5]
-            except ValueError:
-                print("log: ValueError - You're scraping: ", currency)
+            except ValueError as e:
+                print(f"log: ValueError - You're scraping: {currency}, Error: {e}")
             break
 
     return currency_data
