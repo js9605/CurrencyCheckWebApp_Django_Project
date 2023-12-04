@@ -19,5 +19,5 @@ urlpatterns = [
 # once saves two values in "display" url
 
 # Information about the saved date and time of currency scraping 
-# does not display on the "display" url\
+# does not display in "display" url
 

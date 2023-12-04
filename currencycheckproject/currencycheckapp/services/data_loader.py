@@ -3,7 +3,12 @@ from currencycheckapp.models import Currency
 
 
 def save_currency_data(currencies, user):
-    for currency in currencies:
+    print("log2: enter save_currency_data")
+    currencies_list = currencies.strip().split(',')
+    
+    for currency in currencies_list:
+        print("log: enter forloop")
+        
         scraped_data = scrape_website(currency)
 
         try:
@@ -16,6 +21,7 @@ def save_currency_data(currencies, user):
                 average_exchange_rate=scraped_data.get('average_exchange_rate'),
                 user=user
             )
-            print(f"Successfully created currency: {created_currency}")
+            print(f"log: Successfully created currency: {created_currency}")
         except Exception as e:
-            print(f"Error creating currency: {e}")
+            print(f"log: Error creating currency: {e}")
+

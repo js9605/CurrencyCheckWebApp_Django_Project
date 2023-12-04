@@ -34,7 +34,7 @@ class LoadCurrencyDataView(APIView):
 
     def post(self, request, *args, **kwargs):
         print("Enter create method")
-        currencies_to_scrape = request.data.get('currencies_to_scrape', '').strip()
+        currencies_to_scrape = request.data.get('currencies_to_scrape', 'key_is_not_found').strip()
 
         if currencies_to_scrape:
             created = CurrenciesToScrape.objects.update_or_create(
@@ -43,6 +43,9 @@ class LoadCurrencyDataView(APIView):
             )
 
             if created:
+                print("log: DEBUG")
+                print("log: currencies_to_scrape: ", currencies_to_scrape)
+                print("log: created: ", created)
                 save_currency_data(currencies_to_scrape, request.user)
                 return render(request, 'load_currency_data.html', {'user': request.user})
             else:
