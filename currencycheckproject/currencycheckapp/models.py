@@ -15,11 +15,4 @@ class Currency(models.Model):
 
     def __str__(self):
         return self.currency_shortcut
-    
 
-class CurrenciesToScrape(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    currencies_to_scrape = models.TextField(blank=True, null=True)
-
-    def __str__(self):
-        return self.user.username

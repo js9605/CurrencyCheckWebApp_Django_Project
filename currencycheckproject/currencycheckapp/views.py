@@ -36,16 +36,7 @@ class LoadCurrencyDataView(APIView):
         currencies_to_scrape = request.data.get('currencies_to_scrape', 'key_is_not_found').strip()
 
         if currencies_to_scrape:
-            created = CurrenciesToScrape.objects.update_or_create(
-                user=request.user,
-                defaults={'currencies_to_scrape': currencies_to_scrape}
-            )
-
-            if created:
-                save_currency_data(currencies_to_scrape, request.user)
-                return render(request, 'load_currency_data.html', {'user': request.user})
-            else:
-                print("log: currencies_to_scrape not created")
-                return render(request, 'load_currency_data.html', {'user': request.user})
+            save_currency_data(currencies_to_scrape, request.user)
+            return render(request, 'load_currency_data.html', {'user': request.user})
         else:
             return Response({'error': 'Currencies cannot be empty.'}, status=400)
