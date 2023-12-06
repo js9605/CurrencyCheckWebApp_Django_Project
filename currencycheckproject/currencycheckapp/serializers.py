@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 
-from .models import CurrenciesToScrape, Currency
+from .models import Currency
 
 
 class CurrencySerializer(serializers.ModelSerializer):

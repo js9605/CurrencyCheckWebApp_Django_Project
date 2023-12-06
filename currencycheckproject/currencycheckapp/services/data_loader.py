@@ -1,6 +1,8 @@
 from .webscraper import scrape_website
 from currencycheckapp.models import Currency
 
+from django.utils import timezone
+
 
 def save_currency_data(currencies, user):
     currencies_list = currencies.strip().split(',')
@@ -17,7 +19,8 @@ def save_currency_data(currencies, user):
                 purchase_rate=scraped_data.get('purchase_rate'),
                 selling_rate=scraped_data.get('selling_rate'),
                 average_exchange_rate=scraped_data.get('average_exchange_rate'),
-                user=user
+                user=user,
+                stored_date=timezone.now(),
             )
             print(f"log: Successfully created currency: {created_currency}")
         except Exception as e:

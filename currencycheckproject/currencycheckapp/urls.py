@@ -11,10 +11,9 @@ urlpatterns = [
 
 # TODO MAIN
 # 1 (DONE) Fix EUR parsing 
-# 2 Load data for scraping and display some of it on the same site
-# - Save previously added currencies so User dont need to name the 
+# 2 (DONE) Add "go back to LoadCurrencyData" on Display site and the other way "go to LoadCurrencyDataView"
+# 3 Save previously added currencies so User dont need to name the 
 # ones for scraping at that moment
-# - Add "go back to LoadCurrencyData" on Display site
 # 3 Add validation (did user provided the correct names of the currency?)
 # 4 Use Docker
 # 5 Make frontend prettier
@@ -23,6 +22,4 @@ urlpatterns = [
 # - Ability to assign upper and lower limits for a specific currency
 # - Testing these currency boundaries in real time
 # 8 Testing
-# 9 Github Docs - Create understandable and professional usage documentation
-
-
+# 9 Github Docs - Create understandable and professional usage documentation 

@@ -1,5 +1,5 @@
 from .serializers import CurrencySerializer
-from .models import Currency, CurrenciesToScrape
+from .models import Currency
 from .services.data_loader import save_currency_data
 
 from django.utils import timezone
