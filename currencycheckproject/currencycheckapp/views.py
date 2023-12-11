@@ -1,6 +1,6 @@
 from .serializers import CurrencySerializer
 from .models import Currency, UserCurrency
-from .services.data_loader import save_currency_data
+from .services.data_loader import save_currency_data, update_currency_list
 
 from django.views import View
 from django.urls import reverse
@@ -16,6 +16,8 @@ class DisplayCurrencyDataView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
+        save_currency_data(request.user)
+
         self.delete_old_currencies(request.user)
 
         user_currencies = Currency.objects.filter(user=request.user)
@@ -38,7 +40,7 @@ class LoadCurrencyDataView(APIView):
         currencies_to_scrape = request.data.get('currencies_to_scrape', 'key_is_not_found').strip()
 
         if currencies_to_scrape:
-            save_currency_data(currencies_to_scrape, request.user)
+            update_currency_list(currencies_to_scrape, request.user)
             return render(request, 'load_currency_data.html', {'user': request.user})
         else:
             return Response({'error': 'Currencies cannot be empty.'}, status=400)

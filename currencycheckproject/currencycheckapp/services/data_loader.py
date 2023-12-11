@@ -4,7 +4,7 @@ from currencycheckapp.models import Currency, UserCurrency
 from django.utils import timezone
 
 
-def save_currency_data(currencies, user):
+def save_currency_data(user, currencies = 'USD'):
     
     currencies_list = update_currency_list(currencies, user)
 
@@ -42,7 +42,5 @@ def update_currency_list(currencies, user):
             print(f"Currency {currency} already exists for user {user.username}")
 
         stored_currencies.extend(UserCurrency.objects.filter(user=user).values_list('currency_shortcut', flat=True))
-
-    # print("log: stored_currencies: ", stored_currencies)
 
     return stored_currencies

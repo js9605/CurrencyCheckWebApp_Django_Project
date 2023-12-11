@@ -18,12 +18,13 @@ urlpatterns = [
 # ones for scraping at that moment
 # - Append new currencies in currency_shortcut (handle duplicates, how to delete unwanted currencies?)
 # 4 (DONE) Add deletion of currencies in list_user_currencies/
-# 5 Add validation (did user provided the correct names of the currency?)
-# 6 Use Docker
-# 7 Make frontend prettier
-# 8 Logging with OAuth
-# 9 Send mail with notification about exceeted currency values
+# 5 Add automatic scraping after entering /display_currencies/ url
+# 6 Add validation (did user provided the correct names of the currency?)
+# 7 Use Docker
+# 8 Make frontend prettier
+# 9 Logging with OAuth
+# 10 Send mail with notification about exceeted currency values
 # - Ability to assign upper and lower limits for a specific currency
 # - Testing these currency boundaries in real time
-# 10 Testing
-# 11 Github Docs - Create understandable and professional usage documentation 
+# 11 Testing
+# 12 Github Docs - Create understandable and professional usage documentation 
