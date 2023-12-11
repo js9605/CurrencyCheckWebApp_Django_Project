@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Currencies</title>
+</head>
+
+<body>
+
+    <h2>User Currencies</h2>
+
+    <p>Logged in as: {{ user.username }}</p>
+
+    <ul>
+        {% for user_currency in user_currencies %}
+            <li>{{ user_currency.currency_shortcut }}</li>
+        {% endfor %}
+    </ul>
+
+</body>
+
+</html>

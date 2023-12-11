@@ -22,9 +22,6 @@ def extract_currency(html_stripped_data, currency):
     currency_data = {}
     for index, element in enumerate(html_stripped_data):
         if currency == element:
-            print("DEBUG html_stripped_data: ", html_stripped_data[index:index + 6])
-            # TODO Porownaj cale wyrazy a nie tylko pierwsze litery skrotu (Chyba 
-            # wlasnie dlatego bierze zle indeksy euro bo eur+o ma 3 pierwsze litery skrotu EUR)
             try:
                 currency_data['currency_shortcut'] = html_stripped_data[index]
                 currency_data['country'] = html_stripped_data[index + 1]
