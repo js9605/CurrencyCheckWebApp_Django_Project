@@ -30,7 +30,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for currency in currencies %}
+                {% for currency in currencies reversed %}
                 <tr>
                     <td>{{ currency.currency_shortcut }}</td>
                     <td>{{ currency.country }}</td>
