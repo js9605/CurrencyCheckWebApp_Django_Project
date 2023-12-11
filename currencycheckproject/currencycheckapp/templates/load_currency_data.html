@@ -22,9 +22,17 @@
         <button type="submit">Load Data</button>
     </form>
 
-    <a href="{% url 'currency-display' %}" class="btn btn-primary mt-3">
-        <i class="fas fa-arrow-right"></i> View Exchange Rates
-    </a>
+    <div class="mt-3">
+        <a href="{% url 'currency-display' %}" class="btn btn-primary">
+            <i class="fas fa-arrow-right"></i> View Exchange Rates
+        </a>
+    </div>
+    
+    <div class="mt-3">
+        <a href="{% url 'list-user-currencies' %}" class="btn btn-success">
+            <i class="fas fa-list"></i> View User Currencies
+        </a>
+    </div>          
 
 </body>
 </html>

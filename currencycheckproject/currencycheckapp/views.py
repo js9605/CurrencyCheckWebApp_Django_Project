@@ -2,8 +2,11 @@ from .serializers import CurrencySerializer
 from .models import Currency, UserCurrency
 from .services.data_loader import save_currency_data
 
+from django.views import View
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 from django.utils import timezone
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -25,7 +28,6 @@ class DisplayCurrencyDataView(APIView):
         Currency.objects.filter(user=user, stored_date__lt=cutoff_date).delete()
 
 
-
 class LoadCurrencyDataView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
@@ -41,6 +43,13 @@ class LoadCurrencyDataView(APIView):
         else:
             return Response({'error': 'Currencies cannot be empty.'}, status=400)
 
+
+class DeleteUserCurrencyView(View):
+    def post(self, request, pk, *args, **kwargs):
+        currency = get_object_or_404(UserCurrency, pk=pk)
+        currency.delete()
+        return HttpResponseRedirect(reverse('list_user_currencies'))
+    
 def list_user_currencies(request):
     user = request.user
     user_currencies = UserCurrency.objects.filter(user=user)

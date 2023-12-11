@@ -1,12 +1,13 @@
-from rest_framework.routers import DefaultRouter
-from .views import LoadCurrencyDataView, DisplayCurrencyDataView, list_user_currencies
+# from rest_framework.routers import DefaultRouter
+from .views import LoadCurrencyDataView, DisplayCurrencyDataView, list_user_currencies, DeleteUserCurrencyView
 from django.urls import path
 
 
 urlpatterns = [
     path('display_currencies/', DisplayCurrencyDataView.as_view(), name='currency-display'),
     path('upload_currencies/', LoadCurrencyDataView.as_view(), name='currency-load'),
-    path('list_user_currencies/', list_user_currencies, name='list_user_currencies'),
+    path('list_user_currencies/', list_user_currencies, name='list-user-currencies'),
+    path('delete_user_currency/<int:pk>/', DeleteUserCurrencyView.as_view(), name='delete-user-currency'),
     ]
 
 
@@ -16,7 +17,7 @@ urlpatterns = [
 # 3 (DONE) Save previously added currencies so User dont need to name the 
 # ones for scraping at that moment
 # - Append new currencies in currency_shortcut (handle duplicates, how to delete unwanted currencies?)
-# 4 Add deletion of currencies in list_user_currencies/
+# 4 (DONE) Add deletion of currencies in list_user_currencies/
 # 5 Add validation (did user provided the correct names of the currency?)
 # 6 Use Docker
 # 7 Make frontend prettier
