@@ -20,7 +20,7 @@ urlpatterns = [
 # 4 (DONE) Add deletion of currencies in list_user_currencies/
 # 5 (DONE) Add automatic scraping after entering /display_currencies/ url
 # 6 (DONE) Add validation (did user provided the correct names of the currency?)
-# 7 Rename functions, variables, classes to be more descriptive
+# 7 (DONE) Rename functions, variables, classes to be more descriptive
 # 8 User input currencies "toUpper"
 # 9 Use Docker
 # 10 Make frontend prettier
