@@ -16,7 +16,7 @@ class Currency(models.Model):
     def __str__(self):
         return self.currency_shortcut
     
-class UserCurrency(models.Model):
+class UserCurrencies(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     currency_shortcut = models.CharField(max_length=50)
 

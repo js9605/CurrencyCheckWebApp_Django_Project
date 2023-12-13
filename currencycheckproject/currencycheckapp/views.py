@@ -1,6 +1,7 @@
 from .serializers import CurrencySerializer
-from .models import Currency, UserCurrency
-from .services.data_loader import save_currency_data, update_currency_list
+from .models import Currency, UserCurrencies
+from .services.data_loader import scrape_currency_data, update_user_currencies_list
+from .utils.currency_codes import VALID_CURRENCY_CODES
 
 from django.views import View
 from django.urls import reverse
@@ -16,7 +17,7 @@ class DisplayCurrencyDataView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        save_currency_data(request.user)
+        scrape_currency_data(request.user)
 
         self.delete_old_currencies(request.user)
 
@@ -26,7 +27,7 @@ class DisplayCurrencyDataView(APIView):
         return render(request, 'display_exchange_rates.html', {'currencies': serializer.data, 'user': request.user})
 
     def delete_old_currencies(self, user):
-        cutoff_date = timezone.now() - timezone.timedelta(weeks=1)
+        cutoff_date = timezone.now() - timezone.timedelta(days=3)
         Currency.objects.filter(user=user, stored_date__lt=cutoff_date).delete()
 
 
@@ -39,21 +40,28 @@ class LoadCurrencyDataView(APIView):
     def post(self, request, *args, **kwargs):
         currencies_to_scrape = request.data.get('currencies_to_scrape', 'key_is_not_found').strip()
 
+        invalid_currencies = [currency.strip() for currency in currencies_to_scrape.split(',') if currency not in VALID_CURRENCY_CODES]
+
+        if invalid_currencies:
+            error_message = f"Invalid currency codes: {', '.join(invalid_currencies)}"
+            return Response({'error': error_message}, status=400)
+
         if currencies_to_scrape:
-            update_currency_list(currencies_to_scrape, request.user)
+            update_user_currencies_list(currencies_to_scrape, request.user)
             return render(request, 'load_currency_data.html', {'user': request.user})
         else:
             return Response({'error': 'Currencies cannot be empty.'}, status=400)
 
 
-class DeleteUserCurrencyView(View):
+class DeleteUserCurrenciesView(View):
     def post(self, request, pk, *args, **kwargs):
-        currency = get_object_or_404(UserCurrency, pk=pk)
+        currency = get_object_or_404(UserCurrencies, pk=pk)
         currency.delete()
         return HttpResponseRedirect(reverse('list_user_currencies'))
     
+    
 def list_user_currencies(request):
     user = request.user
-    user_currencies = UserCurrency.objects.filter(user=user)
+    user_currencies = UserCurrencies.objects.filter(user=user)
 
     return render(request, 'list_user_currencies.html', {'user_currencies': user_currencies, 'user': user})

@@ -1,12 +1,12 @@
 from .webscraper import scrape_website
-from currencycheckapp.models import Currency, UserCurrency
+from currencycheckapp.models import Currency, UserCurrencies
 
 from django.utils import timezone
 
 
-def save_currency_data(user, currencies = 'USD'):
+def scrape_currency_data(user, currencies = 'USD'):
     
-    currencies_list = update_currency_list(currencies, user)
+    currencies_list = update_user_currencies_list(currencies, user)
 
     for currency in currencies_list:
         
@@ -23,24 +23,24 @@ def save_currency_data(user, currencies = 'USD'):
                 user=user,
                 stored_date=timezone.now(),
             )
-            print(f"log: Successfully created currency: {created_currency}")
+            print(f"log: Successfully scraped currency: {created_currency}")
         except Exception as e:
             print(f"log: Error creating currency: {e}")
 
-def update_currency_list(currencies, user):
+def update_user_currencies_list(currencies, user):
 
     currencies_list = currencies.strip().split(',')
     stored_currencies = []
 
     for currency in currencies_list:
-        existing_currency = UserCurrency.objects.filter(user=user, currency_shortcut=currency).exists()
+        existing_currency = UserCurrencies.objects.filter(user=user, currency_shortcut=currency).exists()
 
         if not existing_currency:
-            UserCurrency.objects.create(user=user, currency_shortcut=currency)
+            UserCurrencies.objects.create(user=user, currency_shortcut=currency)
             print(f"Currency {currency} added for user {user.username}")
         else:
             print(f"Currency {currency} already exists for user {user.username}")
 
-        stored_currencies.extend(UserCurrency.objects.filter(user=user).values_list('currency_shortcut', flat=True))
+        stored_currencies.extend(UserCurrencies.objects.filter(user=user).values_list('currency_shortcut', flat=True))
 
     return stored_currencies

@@ -1,5 +1,5 @@
 # from rest_framework.routers import DefaultRouter
-from .views import LoadCurrencyDataView, DisplayCurrencyDataView, list_user_currencies, DeleteUserCurrencyView
+from .views import LoadCurrencyDataView, DisplayCurrencyDataView, list_user_currencies, DeleteUserCurrenciesView
 from django.urls import path
 
 
@@ -7,7 +7,7 @@ urlpatterns = [
     path('display_currencies/', DisplayCurrencyDataView.as_view(), name='currency-display'),
     path('upload_currencies/', LoadCurrencyDataView.as_view(), name='currency-load'),
     path('list_user_currencies/', list_user_currencies, name='list-user-currencies'),
-    path('delete_user_currency/<int:pk>/', DeleteUserCurrencyView.as_view(), name='delete-user-currency'),
+    path('delete_user_currency/<int:pk>/', DeleteUserCurrenciesView.as_view(), name='delete-user-currency'),
     ]
 
 
@@ -18,13 +18,15 @@ urlpatterns = [
 # ones for scraping at that moment
 # - Append new currencies in currency_shortcut (handle duplicates, how to delete unwanted currencies?)
 # 4 (DONE) Add deletion of currencies in list_user_currencies/
-# 5 Add automatic scraping after entering /display_currencies/ url
-# 6 Add validation (did user provided the correct names of the currency?)
-# 7 Use Docker
-# 8 Make frontend prettier
-# 9 Logging with OAuth
-# 10 Send mail with notification about exceeted currency values
+# 5 (DONE) Add automatic scraping after entering /display_currencies/ url
+# 6 (DONE) Add validation (did user provided the correct names of the currency?)
+# 7 Rename functions, variables, classes to be more descriptive
+# 8 User input currencies "toUpper"
+# 9 Use Docker
+# 10 Make frontend prettier
+# 11 Logging with OAuth
+# 12 Send mail with notification about exceeted currency values
 # - Ability to assign upper and lower limits for a specific currency
 # - Testing these currency boundaries in real time
-# 11 Testing
-# 12 Github Docs - Create understandable and professional usage documentation 
+# 13 Testing
+# 14 Github Docs - Create understandable and professional usage documentation 

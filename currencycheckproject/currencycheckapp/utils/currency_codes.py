@@ -1,0 +1,1 @@
+VALID_CURRENCY_CODES = ['USD', 'EUR', 'JPY', 'GBP', 'CHF', 'AUD', 'CAD', 'NZD', 'CNY', 'BGN', 'CZK', 'DKK', 'HUF', 'ILS', 'NOK', 'RON', 'SEK', 'TRY', 'ZAR']
