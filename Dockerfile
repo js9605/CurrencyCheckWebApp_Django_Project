@@ -14,5 +14,11 @@ COPY requirements.txt /app/
 # Install the dependencies
 RUN pip install -r requirements.txt
 
-# Copy the current directory contents into the container at /app
+# Copy the entire project into the container at /app
 COPY . /app/
+
+# Expose the port that Django will run on
+EXPOSE 8000
+
+# Command to run on container start
+CMD ["python", "currencycheckproject/manage.py", "runserver", "0.0.0.0:8000"]
