@@ -38,7 +38,7 @@ class LoadCurrencyDataView(APIView):
         return render(request, 'load_currency_data.html', {'user': request.user})
 
     def post(self, request, *args, **kwargs):
-        currencies_to_scrape = request.data.get('currencies_to_scrape', 'key_is_not_found').strip()
+        currencies_to_scrape = request.data.get('currencies_to_scrape', 'key_is_not_found').strip().upper()
 
         invalid_currencies = [currency.strip() for currency in currencies_to_scrape.split(',') if currency not in VALID_CURRENCY_CODES]
 
