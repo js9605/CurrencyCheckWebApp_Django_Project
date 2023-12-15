@@ -22,11 +22,10 @@ urlpatterns = [
 # 6 (DONE) Add validation (did user provided the correct names of the currency?)
 # 7 (DONE) Rename functions, variables, classes to be more descriptive
 # 8 (DONE) User input currencies "toUpper"
-# 9 Use Docker
-# 10 Make frontend prettier
-# 11 Logging with OAuth
-# 12 Send mail with notification about exceeted currency values
+# 9 (DONE) Use Docker
+# 10 Send mail with notification about exceeted currency values
 # - Ability to assign upper and lower limits for a specific currency
 # - Testing these currency boundaries in real time
-# 13 Testing
-# 14 Github Docs - Create understandable and professional usage documentation 
+# 11 Logging with OAuth
+# 12 Testing
+# 13 Github Docs - Create understandable and professional usage documentation 

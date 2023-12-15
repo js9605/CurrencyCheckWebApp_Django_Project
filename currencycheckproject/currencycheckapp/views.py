@@ -2,6 +2,7 @@ from .serializers import CurrencySerializer
 from .models import Currency, UserCurrencies
 from .services.data_loader import scrape_currency_data, update_user_currencies_list
 from .utils.currency_codes import VALID_CURRENCY_CODES
+from .forms import CurrencyLimitForm, AddUserCurrencyForm
 
 from django.views import View
 from django.urls import reverse
@@ -35,22 +36,21 @@ class LoadCurrencyDataView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        return render(request, 'load_currency_data.html', {'user': request.user})
+        form = AddUserCurrencyForm()
+        return render(request, 'load_currency_data.html', {'user': request.user, 'form': form})
 
     def post(self, request, *args, **kwargs):
-        currencies_to_scrape = request.data.get('currencies_to_scrape', 'key_is_not_found').strip().upper()
+        form = AddUserCurrencyForm(request.data)
+
+        currencies_to_scrape = form.data.get('currencies_to_scrape', 'key_is_not_found').strip().upper()
 
         invalid_currencies = [currency.strip() for currency in currencies_to_scrape.split(',') if currency not in VALID_CURRENCY_CODES]
 
-        if invalid_currencies:
-            error_message = f"Invalid currency codes: {', '.join(invalid_currencies)}"
-            return Response({'error': error_message}, status=400)
-
-        if currencies_to_scrape:
+        if form.is_valid() and not invalid_currencies:
             update_user_currencies_list(currencies_to_scrape, request.user)
             return render(request, 'load_currency_data.html', {'user': request.user})
         else:
-            return Response({'error': 'Currencies cannot be empty.'}, status=400)
+            return render(request, 'load_currency_data.html', {'user': request.user, 'form': form})
 
 
 class DeleteUserCurrenciesView(View):
@@ -64,4 +64,16 @@ def list_user_currencies(request):
     user = request.user
     user_currencies = UserCurrencies.objects.filter(user=user)
 
-    return render(request, 'list_user_currencies.html', {'user_currencies': user_currencies, 'user': user})
+    if request.method == 'POST':
+        form = CurrencyLimitForm(request.POST)
+        if form.is_valid():
+            # Update the upper and lower limits for the selected currency
+            currency_id = request.POST.get('currency_id')  # Assuming you have a hidden input with currency ID in your template
+            currency = UserCurrencies.objects.get(pk=currency_id)
+            currency.upper_limit = form.cleaned_data['upper_limit']
+            currency.lower_limit = form.cleaned_data['lower_limit']
+            currency.save()
+    else:
+        form = CurrencyLimitForm()
+
+    return render(request, 'list_user_currencies.html', {'user_currencies': user_currencies, 'user': user, 'form': form})

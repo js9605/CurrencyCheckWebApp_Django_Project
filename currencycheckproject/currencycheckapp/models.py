@@ -16,9 +16,12 @@ class Currency(models.Model):
     def __str__(self):
         return self.currency_shortcut
     
+
 class UserCurrencies(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     currency_shortcut = models.CharField(max_length=50)
+    upper_limit = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    lower_limit = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return self.currency_shortcut
