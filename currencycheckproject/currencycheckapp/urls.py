@@ -1,12 +1,12 @@
 # from rest_framework.routers import DefaultRouter
-from .views import LoadCurrencyDataView, DisplayCurrencyDataView, list_user_currencies, DeleteUserCurrenciesView
+from .views import LoadCurrencyDataView, DisplayCurrencyDataView, ListUserCurrenciesView, DeleteUserCurrenciesView
 from django.urls import path
 
 
 urlpatterns = [
     path('display_currencies/', DisplayCurrencyDataView.as_view(), name='currency-display'),
     path('upload_currencies/', LoadCurrencyDataView.as_view(), name='currency-load'),
-    path('list_user_currencies/', list_user_currencies, name='list-user-currencies'),
+    path('list_user_currencies/', ListUserCurrenciesView.as_view(), name='list-user-currencies'),
     path('delete_user_currency/<int:pk>/', DeleteUserCurrenciesView.as_view(), name='delete-user-currency'),
     ]
 
@@ -23,7 +23,8 @@ urlpatterns = [
 # 7 (DONE) Rename functions, variables, classes to be more descriptive
 # 8 (DONE) User input currencies "toUpper"
 # 9 (DONE) Use Docker
-# 10 Send mail with notification about exceeted currency values
+# 10 
+# - (DONE) Send mail with notification about exceeted currency values
 # - Ability to assign upper and lower limits for a specific currency
 # - Testing these currency boundaries in real time
 # 11 Logging with OAuth

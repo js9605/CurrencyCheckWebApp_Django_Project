@@ -36,44 +36,50 @@ class LoadCurrencyDataView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        form = AddUserCurrencyForm()
-        return render(request, 'load_currency_data.html', {'user': request.user, 'form': form})
+        return render(request, 'load_currency_data.html', {'user': request.user})
 
     def post(self, request, *args, **kwargs):
-        form = AddUserCurrencyForm(request.data)
-
-        currencies_to_scrape = form.data.get('currencies_to_scrape', 'key_is_not_found').strip().upper()
+        currencies_to_scrape = request.data.get('currencies_to_scrape', 'key_is_not_found').strip().upper()
 
         invalid_currencies = [currency.strip() for currency in currencies_to_scrape.split(',') if currency not in VALID_CURRENCY_CODES]
 
-        if form.is_valid() and not invalid_currencies:
+        if invalid_currencies:
+            error_message = f"Invalid currency codes: {', '.join(invalid_currencies)}"
+            return Response({'error': error_message}, status=400)
+
+        if currencies_to_scrape:
             update_user_currencies_list(currencies_to_scrape, request.user)
             return render(request, 'load_currency_data.html', {'user': request.user})
         else:
-            return render(request, 'load_currency_data.html', {'user': request.user, 'form': form})
+            return Response({'error': 'Currencies cannot be empty.'}, status=400)
 
 
 class DeleteUserCurrenciesView(View):
     def post(self, request, pk, *args, **kwargs):
         currency = get_object_or_404(UserCurrencies, pk=pk)
         currency.delete()
-        return HttpResponseRedirect(reverse('list_user_currencies'))
+        return HttpResponseRedirect(reverse('list-user-currencies'))
     
     
-def list_user_currencies(request):
-    user = request.user
-    user_currencies = UserCurrencies.objects.filter(user=user)
-
-    if request.method == 'POST':
-        form = CurrencyLimitForm(request.POST)
-        if form.is_valid():
-            # Update the upper and lower limits for the selected currency
-            currency_id = request.POST.get('currency_id')  # Assuming you have a hidden input with currency ID in your template
-            currency = UserCurrencies.objects.get(pk=currency_id)
-            currency.upper_limit = form.cleaned_data['upper_limit']
-            currency.lower_limit = form.cleaned_data['lower_limit']
-            currency.save()
-    else:
+class ListUserCurrenciesView(APIView):
+    def get(self, request, *args, **kwargs):
+        user_currencies = UserCurrencies.objects.filter(user=request.user)
         form = CurrencyLimitForm()
+        return render(request, 'list_user_currencies.html', {'user_currencies': user_currencies, 'user': request.user, 'form': form})
 
-    return render(request, 'list_user_currencies.html', {'user_currencies': user_currencies, 'user': user, 'form': form})
+    def post(self, request, *args, **kwargs):
+        user_currencies = UserCurrencies.objects.filter(user=request.user)
+        form = CurrencyLimitForm(request.POST)
+
+        if form.is_valid():
+            currency_id = request.POST.get('currency_id')
+            currency = get_object_or_404(UserCurrencies, pk=currency_id)
+
+            if request.POST.get('action') == 'set_limits':
+                currency.upper_limit = form.cleaned_data['upper_limit']
+                currency.lower_limit = form.cleaned_data['lower_limit']
+                currency.save()
+        else:
+            print("DEBUG: form errors:", form.errors)
+
+        return render(request, 'list_user_currencies.html', {'user_currencies': user_currencies, 'user': request.user, 'form': form})

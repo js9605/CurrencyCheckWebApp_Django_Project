@@ -24,10 +24,10 @@
                     {% csrf_token %}
                     <input type="hidden" name="currency_id" value="{{ user_currency.id }}">
                     <label for="id_upper_limit">New Upper Price Limit:</label>
-                    <input type="text" name="upper_limit" id="id_upper_limit" value="{{ user_currency.upper_limit }}"><br>
+                    <input type="number" name="upper_limit" id="id_upper_limit" value="{{ user_currency.upper_limit }}" step="0.01"><br>
                     <label for="id_lower_limit">New Lower Price Limit:</label>
-                    <input type="text" name="lower_limit" id="id_lower_limit" value="{{ user_currency.lower_limit }}">
-                    <button type="submit">Set Limits</button>
+                    <input type="number" name="lower_limit" id="id_lower_limit" value="{{ user_currency.lower_limit }}" step="0.01">
+                    <button type="submit" name="action" value="set_limits">Set Limits</button>
                 </form>
 
                 <form method="post" action="{% url 'delete-user-currency' pk=user_currency.pk %}" style="display:inline;">
