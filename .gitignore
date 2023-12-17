@@ -1,4 +1,5 @@
 credentials.txt
+ProjectStructure.txt
 
 # Ignore virtual environment files
 .venv/
