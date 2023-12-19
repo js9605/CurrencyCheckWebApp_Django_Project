@@ -14,7 +14,7 @@ currencycheckproject/
 |   |   |-- settings.py
 |   |-- manage.py
 |-- .gitattributes
-|-- .gitignore
+|-- .gitignore 
 |-- credentials.txt
 |-- docker-compose.yml
 |-- docker
@@ -35,7 +35,6 @@ currencycheckproject/
 # 10 
 # - Send mail with notification about exceeted currency values
 # - (DONE) Ability to assign upper and lower limits for a specific currency
-# - Testing these currency boundaries in real time
-# 11 Logging with OAuth
+# - Testing these currency boundaries in real time - Celery
 # 12 Testing
 # 13 Github Docs - Create understandable and professional usage documentation 

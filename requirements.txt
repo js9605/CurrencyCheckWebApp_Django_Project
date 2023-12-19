@@ -5,3 +5,4 @@ beautifulsoup4
 requests
 bs4
 pygments
+django-redis==5.0.0
