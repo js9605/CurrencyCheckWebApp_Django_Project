@@ -3,6 +3,10 @@ currencycheckproject/
 |-- currencycheckproject
 |   |-- currencycheckapp/
 |   |   |-- services
+|   |   |   |-- data_loader.py
+|   |   |   |-- webscraper.py
+|   |   |-- tasks
+|   |   |   |-- celery_tasks.py
 |   |   |-- templates
 |   |   |-- utils
 |   |   |-- forms.py
@@ -13,11 +17,13 @@ currencycheckproject/
 |   |-- currencycheckproject/
 |   |   |-- settings.py
 |   |-- manage.py
+|   |-- celery.py
 |-- .gitattributes
 |-- .gitignore 
 |-- credentials.txt
 |-- docker-compose.yml
 |-- docker
+|-- requirements.txt
 
 
 # TODO MAIN

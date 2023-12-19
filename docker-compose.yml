@@ -21,6 +21,16 @@ services:
     networks:
       - mynetwork
 
+  celery:
+    build: .
+    depends_on:
+      - redis
+    command: celery -A currencycheckproject worker --loglevel=info
+    environment:
+      - DJANGO_SETTINGS_MODULE=currencycheckproject.settings
+    networks:
+      - mynetwork
+
   db:
     image: postgres
     environment:
