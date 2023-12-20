@@ -15,7 +15,7 @@ COPY requirements.txt /app/
 RUN pip install -r requirements.txt
 
 # Copy the entire project into the container at /app
-COPY . /app/
+COPY currencycheckproject /app
 
 # Expose the port that Django will run on
 EXPOSE 8000
