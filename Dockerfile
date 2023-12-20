@@ -23,8 +23,8 @@ EXPOSE 8000
 # Celery
 RUN pip install celery[redis]
 
-COPY currencycheckproject/celery.py /app/currencycheckproject/celery.py
-COPY currencycheckproject/currencycheckapp/tasks/celery_tasks.py /app/currencycheckproject/currencycheckapp/tasks/celery_tasks.py
+# COPY currencycheckproject/celery.py /app/currencycheckproject/celery.py
+# COPY currencycheckproject/currencycheckapp/tasks/celery_tasks.py /app/currencycheckproject/currencycheckapp/tasks/celery_tasks.py
 
 # Command to run on container start
 CMD ["python", "currencycheckproject/manage.py", "runserver", "0.0.0.0:8000"]

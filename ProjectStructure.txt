@@ -1,14 +1,14 @@
 currencycheckproject/
 |-- .venv
-|-- currencycheckproject
+|-- currencycheckproject/
 |   |-- currencycheckapp/
-|   |   |-- services
+|   |   |-- services/
 |   |   |   |-- data_loader.py
 |   |   |   |-- webscraper.py
-|   |   |-- tasks
+|   |   |-- tasks/
 |   |   |   |-- celery_tasks.py
-|   |   |-- templates
-|   |   |-- utils
+|   |   |-- templates/
+|   |   |-- utils/
 |   |   |-- forms.py
 |   |   |-- models.py
 |   |   |-- serializers.py
@@ -22,7 +22,7 @@ currencycheckproject/
 |-- .gitignore 
 |-- credentials.txt
 |-- docker-compose.yml
-|-- docker
+|-- Dockerfile
 |-- requirements.txt
 
 
