@@ -27,4 +27,4 @@ RUN pip install celery[redis]
 # COPY currencycheckproject/currencycheckapp/tasks/celery_tasks.py /app/currencycheckproject/currencycheckapp/tasks/celery_tasks.py
 
 # Command to run on container start
-CMD ["python", "currencycheckproject/manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
