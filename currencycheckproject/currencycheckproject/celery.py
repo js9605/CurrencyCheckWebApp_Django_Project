@@ -9,8 +9,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', os.environ['DJANGO_SETTINGS_MODU
 app = Celery('currencycheckproject')
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
-# Call Django setup to initialize the application
-setup()
+setup()  # Call Django setup to initialize the application
 
 def autodiscover_tasks():
     for app_config in apps.get_app_configs():
@@ -22,5 +21,5 @@ def autodiscover_tasks():
         except ImportError:
             print("ImportError in celery.py")
 
-# Call the custom autodiscover_tasks function
+# custom function
 autodiscover_tasks()
