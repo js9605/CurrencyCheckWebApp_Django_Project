@@ -1,25 +1,34 @@
 from __future__ import absolute_import, unicode_literals
 import os
 from celery import Celery
+from celery.schedules import crontab
 from django import setup
-from django.apps import apps
+from currencycheckapp.tasks.celery_tasks import autodiscover_tasks
 
-print(f"DEBUG: DJANGO_SETTINGS_MODULE={os.environ['DJANGO_SETTINGS_MODULE']}")
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', os.environ['DJANGO_SETTINGS_MODULE'])
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'currencycheckproject.settings')
+
 app = Celery('currencycheckproject')
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
 setup()  # Call Django setup to initialize the application
-
-def autodiscover_tasks():
-    for app_config in apps.get_app_configs():
-        # Look for celery_tasks.py instead of tasks.py
-        app_config_path = app_config.path.replace('.', '/')
-        app_tasks_module = f'{app_config_path}/tasks/celery_tasks.py'
-        try:
-            __import__(app_tasks_module)
-        except ImportError:
-            print("ImportError in celery.py")
-
-# custom function
 autodiscover_tasks()
+
+@app.task(bind=True)
+def debug_task(self):
+    print('Request: {0!r}'.format(self.request))
+
+# Schedule periodic task to check currency values
+app.conf.beat_schedule = {
+    'check-currency-every-hour': {
+        'task': 'currencycheckapp.services.notification_handler.fetch_currency_values_and_notify',
+        'schedule': crontab(minute=0, hour='*'),
+        'args': (user_email), #TODO user_mail as func like below?
+        'kwargs': {
+            'currency_value_func': 'currencycheckapp.services.notification_handler.get_currency_value',
+            'threshold_func': 'currencycheckapp.services.notification_handler.get_threshold',
+        },
+    },
+}
+
+app.conf.timezone = 'UTC'

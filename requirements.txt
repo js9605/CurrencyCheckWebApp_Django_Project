@@ -6,3 +6,4 @@ requests
 bs4
 pygments
 django-redis==5.0.0
+celery==5.2.3

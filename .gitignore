@@ -3,6 +3,7 @@ ProjectStructure.txt
 
 # Ignore virtual environment files
 .venv/
+.venv/Lib/
 .env/
 
 # Ignore Python bytecode files
@@ -30,3 +31,4 @@ local_settings.py
 *.sublime-*
 *.pycharm*
 *.DS_Store
+
