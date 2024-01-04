@@ -23,8 +23,9 @@ app.conf.beat_schedule = {
     'check-currency-every-hour': {
         'task': 'currencycheckapp.services.notification_handler.fetch_currency_values_and_notify',
         'schedule': crontab(minute=0, hour='*'),
-        'args': (user_email), #TODO user_mail as func like below?
+        'args': (),
         'kwargs': {
+            'user_email_func': 'currencycheckapp.services.notification_handler.get_user_email',
             'currency_value_func': 'currencycheckapp.services.notification_handler.get_currency_value',
             'threshold_func': 'currencycheckapp.services.notification_handler.get_threshold',
         },

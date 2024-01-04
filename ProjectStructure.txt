@@ -41,7 +41,11 @@ currencycheckproject/
 # 9 (DONE) Use Docker
 # - (DONE) Ability to assign upper and lower limits for a specific currency
 # 10 Celery + e-mail
-# - Send mail with notification about exceeted currency values
-# - Testing these currency boundaries in real time - Celery
+# Send mail with notification about exceeted currency values
+# Testing these currency boundaries in real time - Celery
+ - Take limits from UserCurrencies(upper_limit, lower_limit) and pass to notification_handler.get_threshold
+ - Do i need two check_currency_threshold methods for upper and lower limit check? 
+   Do i need two @shared_task for that? 
+
 # 12 Testing [do i need in that project?]
 # 13 Github Docs - Create understandable and professional usage documentation 

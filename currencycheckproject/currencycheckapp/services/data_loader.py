@@ -44,3 +44,5 @@ def update_user_currencies_list(currencies, user):
         stored_currencies.extend(UserCurrencies.objects.filter(user=user).values_list('currency_shortcut', flat=True))
 
     return stored_currencies
+
+
