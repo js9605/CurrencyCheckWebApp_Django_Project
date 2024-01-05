@@ -15,7 +15,7 @@ def fetch_currency_values_and_notify():
 def get_currency_value(user, currency_shortcut, criterion='purchase_rate'):
     try:
         currency = Currency.objects.get(user=user, currency_shortcut=currency_shortcut)
-        return getattr(currency, criterion)
+        return getattr(currency, criterion) #TODO apply purchase_rate and selling_rate logic 
     except Currency.DoesNotExist:
         print("log: Currency.DoesNotExist in notification_handler.get_currency_value")
         return None
