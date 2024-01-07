@@ -5,17 +5,24 @@ from currencycheckproject.currencycheckapp.models import Currency, UserCurrencie
 # Using this in celery.py for scheduling
 def fetch_currency_values_and_notify():
 
-    currency_value = get_currency_value()
-    threshold = get_threshold()
-    user_email = get_user_email()
+    user_currencies_list = UserCurrencies.objects.all()
 
-    check_currency_threshold.delay(user_email, currency_value, threshold)
+    for user_currency in user_currencies_list:
+        user = user_currency.user
+        currency_shortcut = user_currency.currency_shortcut
+        user_email = user_currency.user_email
 
-# TODO How pass these args here?
-def get_currency_value(user, currency_shortcut, criterion='purchase_rate'):
+        currency_rates = get_currency_value(user, currency_shortcut)
+        threshold = get_threshold(user, currency_shortcut)
+
+        check_currency_threshold.delay(user_email, currency_shortcut, currency_rates, threshold)
+
+def get_currency_value(user, currency_shortcut):
     try:
         currency = Currency.objects.get(user=user, currency_shortcut=currency_shortcut)
-        return getattr(currency, criterion) #TODO apply purchase_rate and selling_rate logic 
+        currency_rates = {'purchase_rate': currency.purchase_rate, 'selling_rate': currency.selling_rate}
+        return currency_rates
+    
     except Currency.DoesNotExist:
         print("log: Currency.DoesNotExist in notification_handler.get_currency_value")
         return None
@@ -29,12 +36,6 @@ def get_threshold(user, currency_shortcut):
     except UserCurrencies.DoesNotExist:
         print("log: UserCurrencies.DoesNotExist in notification_handler.get_threshold")
         return None
-
-def get_user_email():
-    #TODO Implement the logic to get the user's email address
-    # For example, if you have a User model with an email field, you can retrieve it as follows:
-    # return User.objects.get(username='your_username').email
-    pass
 
 
 #TODO Example usage

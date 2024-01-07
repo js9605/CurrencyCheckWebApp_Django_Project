@@ -19,6 +19,7 @@ class Currency(models.Model):
 
 class UserCurrencies(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_email = models.EmailField()
     currency_shortcut = models.CharField(max_length=50)
     upper_limit = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     lower_limit = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)

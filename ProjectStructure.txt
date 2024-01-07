@@ -5,6 +5,7 @@ currencycheckproject/
 |   |   |-- services/
 |   |   |   |-- data_loader.py
 |   |   |   |-- webscraper.py
+|   |   |   |-- notification_handler.py
 |   |   |-- tasks/
 |   |   |   |-- celery_tasks.py
 |   |   |-- templates/
