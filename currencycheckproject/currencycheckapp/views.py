@@ -60,7 +60,8 @@ class DeleteUserCurrenciesView(View):
         currency.delete()
         return HttpResponseRedirect(reverse('list-user-currencies'))
     
-    
+
+# TODO Read email(template) and save it to model
 class ListUserCurrenciesView(APIView):
     def get(self, request, *args, **kwargs):
         user_currencies = UserCurrencies.objects.filter(user=request.user)

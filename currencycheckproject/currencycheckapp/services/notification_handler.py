@@ -8,6 +8,7 @@ def fetch_currency_values_and_notify():
     user_currencies_list = UserCurrencies.objects.all()
 
     for user_currency in user_currencies_list:
+        
         user = user_currency.user
         currency_shortcut = user_currency.currency_shortcut
         user_email = user_currency.user_email
@@ -36,12 +37,3 @@ def get_threshold(user, currency_shortcut):
     except UserCurrencies.DoesNotExist:
         print("log: UserCurrencies.DoesNotExist in notification_handler.get_threshold")
         return None
-
-
-#TODO Example usage
-
-# # Assuming you have a logged-in user (replace 'logged_user' with your actual user variable)
-# logged_user = request.user  # or however you retrieve the logged-in user in your view/controller
-
-# # Get the purchase rate for the currency with shortcut 'USD' for the logged-in user
-# purchase_rate_usd = get_currency_value(logged_user, 'USD', criterion='purchase_rate')
