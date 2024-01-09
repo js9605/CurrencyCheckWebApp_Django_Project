@@ -18,7 +18,7 @@ def fetch_currency_values_and_notify():
 
         check_currency_threshold.delay(user_email, currency_shortcut, currency_rates, threshold)
 
-def get_currency_value(user, currency_shortcut):
+def get_currency_value(user, currency_shortcut) -> dict:
     try:
         currency = Currency.objects.get(user=user, currency_shortcut=currency_shortcut)
         currency_rates = {'purchase_rate': currency.purchase_rate, 'selling_rate': currency.selling_rate}
@@ -28,7 +28,7 @@ def get_currency_value(user, currency_shortcut):
         print("log: Currency.DoesNotExist in notification_handler.get_currency_value")
         return None
 
-def get_threshold(user, currency_shortcut):
+def get_threshold(user, currency_shortcut)  -> dict:
     try:
         user_currency = UserCurrencies.objects.get(user=user, currency_shortcut=currency_shortcut)
         threshold = {'upper_limit': user_currency.upper_limit, 'lower_limit': user_currency.lower_limit}
