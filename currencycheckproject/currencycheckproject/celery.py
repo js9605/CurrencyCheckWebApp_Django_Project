@@ -3,16 +3,15 @@ import os
 from celery import Celery
 from celery.schedules import crontab
 from django import setup
-from currencycheckapp.tasks.celery_tasks import autodiscover_tasks
 
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'currencycheckproject.settings')
 
-app = Celery('currencycheckproject')
+app = Celery('currencycheckproject.celery')
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
 setup()  # Call Django setup to initialize the application
-autodiscover_tasks()
+app.autodiscover_tasks()
 
 @app.task(bind=True)
 def debug_task(self):
