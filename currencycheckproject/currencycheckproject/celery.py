@@ -8,7 +8,7 @@ from currencycheckapp.tasks.celery_tasks import autodiscover_tasks
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'currencycheckproject.settings')
 
-app = Celery('currencycheckproject')
+app = Celery('currencycheckproject.celery')
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
 setup()  # Call Django setup to initialize the application
