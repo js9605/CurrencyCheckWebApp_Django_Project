@@ -61,7 +61,7 @@ class DeleteUserCurrenciesView(View):
         return HttpResponseRedirect(reverse('list-user-currencies'))
     
 
-# TODO Read email(template) and save it to model
+# TODO Test in celery
 class ListUserCurrenciesView(APIView):
     def get(self, request, *args, **kwargs):
         user_currencies = UserCurrencies.objects.filter(user=request.user)
@@ -73,14 +73,20 @@ class ListUserCurrenciesView(APIView):
         form = CurrencyLimitForm(request.POST)
 
         if form.is_valid():
-            currency_id = request.POST.get('currency_id')
-            currency = get_object_or_404(UserCurrencies, pk=currency_id)
+            action = request.POST.get('action')
 
-            if request.POST.get('action') == 'set_limits':
+            if action == 'set_limits':
+                currency_id = request.POST.get('currency_id')
+                currency = get_object_or_404(UserCurrencies, pk=currency_id)
                 currency.upper_limit = form.cleaned_data['upper_limit']
                 currency.lower_limit = form.cleaned_data['lower_limit']
                 currency.save()
-        else:
-            print("DEBUG: form errors:", form.errors)
+
+            elif action == 'update_user_email':
+                user_email = form.cleaned_data['user_email']
+                # Update user_email in UserCurrencies model
+                UserCurrencies.objects.filter(user=request.user).update(user_email=user_email)
+                print('log: user_email: ', user_email)
+                # messages.success(request, 'User email updated successfully.')
 
         return render(request, 'list_user_currencies.html', {'user_currencies': user_currencies, 'user': request.user, 'form': form})

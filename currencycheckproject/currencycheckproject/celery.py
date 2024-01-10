@@ -12,7 +12,7 @@ app = Celery('currencycheckproject')
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
 setup()  # Call Django setup to initialize the application
-autodiscover_tasks()
+app.autodiscover_tasks()
 
 @app.task(bind=True)
 def debug_task(self):
