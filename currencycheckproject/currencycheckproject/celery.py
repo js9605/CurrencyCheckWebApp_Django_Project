@@ -3,7 +3,6 @@ import os
 from celery import Celery
 from celery.schedules import crontab
 from django import setup
-from currencycheckapp.tasks.celery_tasks import autodiscover_tasks
 
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'currencycheckproject.settings')
