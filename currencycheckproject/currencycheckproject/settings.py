@@ -154,3 +154,40 @@ CACHES = {
 CELERY_BROKER_URL = 'redis://redis:6379/0'
 CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 CELERY_IMPORTS = ('currencycheckapp.tasks.celery_tasks',)
+
+
+
+
+
+# MAILING SETTINGS
+# tempsurnametempname2@gmail.com
+
+# Use the SMTP backend for sending emails
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# SMTP server settings for Gmail
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+# Set your Gmail email address and password
+EMAIL_HOST_USER = 'tempsurnametempname2@gmail.com'
+EMAIL_HOST_PASSWORD = 'somepassword'
+
+# Default "from" address for emails sent by your application
+DEFAULT_FROM_EMAIL = 'tempsurnametempname2@gmail.com'
+
+# Reply-to address for emails sent by your application
+SERVER_EMAIL = 'tempsurnametempname2@gmail.com'
+
+# Additional settings if using Gmail
+# Google requires the following settings for security reasons
+# You may need to generate an 'App Password' if you have 2-factor authentication enabled
+# https://support.google.com/accounts/answer/185833?hl=en
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+# Optional: Log email messages to the console for debugging
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
