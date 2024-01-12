@@ -60,8 +60,7 @@ class DeleteUserCurrenciesView(View):
         currency.delete()
         return HttpResponseRedirect(reverse('list-user-currencies'))
     
-
-# TODO Test in celery
+    
 class ListUserCurrenciesView(APIView):
     def get(self, request, *args, **kwargs):
         user_currencies = UserCurrencies.objects.filter(user=request.user)
