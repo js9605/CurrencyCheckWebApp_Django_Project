@@ -18,7 +18,7 @@
             {% csrf_token %}
             <label for="id_user_email">User Email:</label>
             <input type="email" name="user_email" id="id_user_email" value="{{ user_email }}" required>
-            <button type="submit" name="action" value="update_user_email">Update Email</button>
+            <button type="submit" name="update_user_email" value="update_user_email">Update Email</button>
         </form>
 
     <ul>
@@ -35,7 +35,7 @@
                     <input type="number" name="upper_limit" id="id_upper_limit" value="{{ user_currency.upper_limit }}" step="0.01"><br>
                     <label for="id_lower_limit">New Lower Price Limit:</label>
                     <input type="number" name="lower_limit" id="id_lower_limit" value="{{ user_currency.lower_limit }}" step="0.01">
-                    <button type="submit" name="action" value="set_limits">Set Limits</button>
+                    <button type="submit" name="set_limits" value="set_limits">Set Limits</button>
                 </form>
 
                 <form method="post" action="{% url 'delete-user-currency' pk=user_currency.pk %}" style="display:inline;">

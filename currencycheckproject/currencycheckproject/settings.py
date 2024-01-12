@@ -160,11 +160,7 @@ CELERY_IMPORTS = ('currencycheckapp.tasks.celery_tasks',)
 
 
 
-
-
-# MAILING SETTINGS #TODO Check if mailing works
-# tempsurnametempname2@gmail.com
-
+# MAILING SYSTEM SETTINGS
 # Use the SMTP backend for sending emails
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
@@ -189,7 +185,7 @@ SERVER_EMAIL = 'tempsurnametempname2@gmail.com'
 # https://support.google.com/accounts/answer/185833?hl=en
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend', #TODO error here
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 # Optional: Log email messages to the console for debugging
