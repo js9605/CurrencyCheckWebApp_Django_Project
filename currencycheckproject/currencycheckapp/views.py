@@ -60,8 +60,7 @@ class DeleteUserCurrenciesView(View):
         currency.delete()
         return HttpResponseRedirect(reverse('list-user-currencies'))
     
-
-# TODO Test in celery
+    
 class ListUserCurrenciesView(APIView):
     def get(self, request, *args, **kwargs):
         user_currencies = UserCurrencies.objects.filter(user=request.user)
@@ -80,6 +79,7 @@ class ListUserCurrenciesView(APIView):
                 currency = get_object_or_404(UserCurrencies, pk=currency_id)
                 currency.upper_limit = form.cleaned_data['upper_limit']
                 currency.lower_limit = form.cleaned_data['lower_limit']
+                print("log: currency.upper_limit = ", currency.upper_limit, " currency.lower_limit = ", currency.lower_limit)
                 currency.save()
 
             elif action == 'update_user_email':
