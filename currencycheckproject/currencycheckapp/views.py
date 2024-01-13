@@ -2,12 +2,13 @@ from .serializers import CurrencySerializer
 from .models import Currency, UserCurrencies
 from .services.data_loader import scrape_currency_data, update_user_currencies_list
 from .utils.currency_codes import VALID_CURRENCY_CODES
-from .forms import CurrencyLimitForm, AddUserCurrencyForm
+from .forms import CurrencyLimitForm
 
 from django.views import View
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.utils import timezone
+from django.contrib import messages
 from django.shortcuts import render, get_object_or_404
 from rest_framework import permissions
 from rest_framework.response import Response
@@ -68,10 +69,12 @@ class ListUserCurrenciesView(APIView):
         return render(request, 'list_user_currencies.html', {'user_currencies': user_currencies, 'user': request.user, 'form': form})
 
     def post(self, request, *args, **kwargs):
+        print('DEBUG: Entered ListUserCurrenciesView.post')
         user_currencies = UserCurrencies.objects.filter(user=request.user)
         form = CurrencyLimitForm(request.POST)
 
         if form.is_valid():
+            print('log: form.is_valid == True')
             action = request.POST.get('action')
 
             if action == 'set_limits':
@@ -79,14 +82,23 @@ class ListUserCurrenciesView(APIView):
                 currency = get_object_or_404(UserCurrencies, pk=currency_id)
                 currency.upper_limit = form.cleaned_data['upper_limit']
                 currency.lower_limit = form.cleaned_data['lower_limit']
-                print("log: currency.upper_limit = ", currency.upper_limit, " currency.lower_limit = ", currency.lower_limit)
+                print("log: currency.upper_limit =", currency.upper_limit, " currency.lower_limit =", currency.lower_limit)
                 currency.save()
 
             elif action == 'update_user_email':
-                user_email = form.cleaned_data['user_email']
-                # Update user_email in UserCurrencies model
-                UserCurrencies.objects.filter(user=request.user).update(user_email=user_email)
-                print('log: user_email: ', user_email)
-                # messages.success(request, 'User email updated successfully.')
+                # Get the updated user_email from the request
+                user_email = request.POST.get('user_email')
+
+                # Check if the provided email already exists for the user
+                if not UserCurrencies.objects.filter(user=request.user, user_email=user_email).exists():
+                    # Update user_email in UserCurrencies model
+                    UserCurrencies.objects.filter(user=request.user).update(user_email=user_email)
+                    print('log: User email updated successfully.')
+                else:
+                    print('log: User email already exists. Please provide a different email.')
+
+
+        else:
+            print('DEBUG: form error:', form.errors)
 
         return render(request, 'list_user_currencies.html', {'user_currencies': user_currencies, 'user': request.user, 'form': form})
