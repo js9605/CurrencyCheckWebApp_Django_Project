@@ -19,4 +19,4 @@ class AddUserCurrencyForm(forms.ModelForm):
 class CurrencyLimitForm(forms.ModelForm):
     class Meta:
         model = UserCurrencies
-        fields = ['user_email', 'upper_limit', 'lower_limit']
+        fields = ['upper_limit', 'lower_limit']
