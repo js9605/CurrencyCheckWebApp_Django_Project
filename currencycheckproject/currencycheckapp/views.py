@@ -74,7 +74,7 @@ class ListUserCurrenciesView(APIView):
         form = CurrencyLimitForm(request.POST)
 
         if form.is_valid():
-            print('log: form.is_valid == True')
+            print('DEBUG: form.is_valid == True')
             action = request.POST.get('action')
 
             if action == 'set_limits':
@@ -82,22 +82,17 @@ class ListUserCurrenciesView(APIView):
                 currency = get_object_or_404(UserCurrencies, pk=currency_id)
                 currency.upper_limit = form.cleaned_data['upper_limit']
                 currency.lower_limit = form.cleaned_data['lower_limit']
-                print("log: currency.upper_limit =", currency.upper_limit, " currency.lower_limit =", currency.lower_limit)
+                print("DEBUG: currency.upper_limit =", currency.upper_limit, " currency.lower_limit =", currency.lower_limit)
                 currency.save()
 
             elif action == 'update_user_email':
-                # Get the updated user_email from the request
                 user_email = request.POST.get('user_email')
 
-                # Check if the provided email already exists for the user
                 if not UserCurrencies.objects.filter(user=request.user, user_email=user_email).exists():
-                    # Update user_email in UserCurrencies model
                     UserCurrencies.objects.filter(user=request.user).update(user_email=user_email)
-                    print('log: User email updated successfully.')
+                    print('DEBUG: User email updated successfully.')
                 else:
-                    print('log: User email already exists. Please provide a different email.')
-
-
+                    print('DEBUG: User email already exists. Please provide a different email.')
         else:
             print('DEBUG: form error:', form.errors)
 

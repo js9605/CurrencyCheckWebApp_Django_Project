@@ -30,7 +30,7 @@ def extract_currency(html_stripped_data, currency):
                 currency_data['selling_rate'] = html_stripped_data[index + 4]
                 currency_data['average_exchange_rate'] = html_stripped_data[index + 5]
             except ValueError as e:
-                print(f"log: ValueError - You're scraping: {currency}, Error: {e}")
+                print(f"DEBUG: ValueError - You're scraping: {currency}, Error: {e}")
             break
 
     return currency_data

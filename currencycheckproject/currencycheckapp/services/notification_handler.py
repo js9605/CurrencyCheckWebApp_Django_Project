@@ -25,7 +25,7 @@ def get_currency_value(user, currency_shortcut) -> dict:
         return currency_rates
     
     except Currency.DoesNotExist:
-        print("log: Currency.DoesNotExist in notification_handler.get_currency_value")
+        print("DEBUG: Currency.DoesNotExist in notification_handler.get_currency_value")
         return None
 
 def get_threshold(user, currency_shortcut)  -> dict:
@@ -35,5 +35,5 @@ def get_threshold(user, currency_shortcut)  -> dict:
         return threshold
     
     except UserCurrencies.DoesNotExist:
-        print("log: UserCurrencies.DoesNotExist in notification_handler.get_threshold")
+        print("DEBUG: UserCurrencies.DoesNotExist in notification_handler.get_threshold")
         return None
