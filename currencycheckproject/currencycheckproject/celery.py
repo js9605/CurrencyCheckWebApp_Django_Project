@@ -1,4 +1,5 @@
 from __future__ import absolute_import, unicode_literals
+from datetime import timedelta
 import os
 from celery import Celery
 from celery.schedules import crontab
@@ -17,11 +18,32 @@ app.autodiscover_tasks()
 def debug_task(self):
     print('Request: {0!r}'.format(self.request))
 
-# Schedule periodic task to check currency values
+
+# Schedule periodic task to check currency values #TODO Not working [?]
+# Ive put it in func last time to check if  @app.task(bind=True) will trigger beat_schedule
+# @app.task(bind=True)
+# def main_celery():
+#     app.conf.beat_schedule = {
+#         'check-currency-every-hour': {
+#             'task': 'currencycheckapp.services.notification_handler.fetch_currency_values_and_notify',
+#             # 'schedule': crontab(minute=0, hour='*'),
+#             'schedule': timedelta(minutes=2),
+#             'args': (),
+#             'kwargs': {
+#                 'user_email_func': 'currencycheckapp.services.notification_handler.get_user_email',
+#                 'currency_value_func': 'currencycheckapp.services.notification_handler.get_currency_value',
+#                 'threshold_func': 'currencycheckapp.services.notification_handler.get_threshold',
+#             },
+#         },
+#     }
+
+#     app.conf.timezone = 'UTC'
+    
 app.conf.beat_schedule = {
     'check-currency-every-hour': {
         'task': 'currencycheckapp.services.notification_handler.fetch_currency_values_and_notify',
-        'schedule': crontab(minute=0, hour='*'),
+        # 'schedule': crontab(minute=0, hour='*'),
+        'schedule': timedelta(minutes=2),
         'args': (),
         'kwargs': {
             'user_email_func': 'currencycheckapp.services.notification_handler.get_user_email',

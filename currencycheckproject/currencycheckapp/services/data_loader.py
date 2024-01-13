@@ -23,9 +23,9 @@ def scrape_currency_data(user, currencies = 'USD'):
                 user=user,
                 stored_date=timezone.now(),
             )
-            print(f"log: Successfully scraped currency: {created_currency}")
+            print(f"DEBUG: Successfully scraped currency: {created_currency}")
         except Exception as e:
-            print(f"log: Error creating currency: {e}")
+            print(f"DEBUG: Error creating currency: {e}")
 
 def update_user_currencies_list(currencies, user):
 
