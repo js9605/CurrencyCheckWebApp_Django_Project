@@ -19,7 +19,7 @@ def debug_task(self):
     print('Request: {0!r}'.format(self.request))
 
 
-# Schedule periodic task to check currency values #TODO Not working [?]
+# Schedule periodic task to check currency values #TODO Not working [?] set up Celery Beat to schedule periodic tasks 
 # Ive put it in func last time to check if  @app.task(bind=True) will trigger beat_schedule
 # @app.task(bind=True)
 # def main_celery():
