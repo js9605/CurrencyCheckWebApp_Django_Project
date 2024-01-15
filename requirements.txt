@@ -1,10 +1,11 @@
-Django==4.1
-djangorestframework==3.12.4
+Django
+djangorestframework
 pytz
 beautifulsoup4 
 requests
 bs4
 pygments
-django-redis==5.0.0
-celery==5.2.3
-django-allauth==0.48.0
+django-redis
+celery
+django-allauth
+django-celery-beat
