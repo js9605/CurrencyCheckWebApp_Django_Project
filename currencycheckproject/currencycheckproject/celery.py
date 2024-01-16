@@ -20,19 +20,21 @@ def debug_task(self):
 
 
 # Schedule periodic task to check currency values 
-#TODO Not working [?] set up Celery Beat to schedule periodic tasks 
-    
+# TODO Not working [?] check_currency_threshold() missing 4 required positional arguments: 'user_email', 'currency_shortcut', 'currency_value', and 'threshold'
+# the issue you're encountering is likely due to the asynchronous nature of Celery.
+#  I can try doing: def fetch_currency_values_and_notify(user_email, currency_shortcut, currency_rates, threshold)
+    # and passing kwargs like in commented chunk of code below 
 app.conf.beat_schedule = {
     'check-currency-every-hour': {
         'task': 'currencycheckapp.services.notification_handler.fetch_currency_values_and_notify',
         # 'schedule': crontab(minute=0, hour='*'),
         'schedule': timedelta(minutes=2),
-        'args': (),
-        'kwargs': {
-            'user_email_func': 'currencycheckapp.services.notification_handler.get_user_email',
-            'currency_value_func': 'currencycheckapp.services.notification_handler.get_currency_value',
-            'threshold_func': 'currencycheckapp.services.notification_handler.get_threshold',
-        },
+        # 'args': (),
+        # 'kwargs': {
+        #     # 'user_email_func': 'currencycheckapp.services.notification_handler.get_user_email',
+        #     # 'get_currency_value': 'currencycheckapp.services.notification_handler.get_currency_value',
+        #     # 'get_threshold': 'currencycheckapp.services.notification_handler.get_threshold',
+        # },
     },
 }
 

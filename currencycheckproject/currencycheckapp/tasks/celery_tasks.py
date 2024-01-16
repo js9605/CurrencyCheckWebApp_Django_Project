@@ -11,7 +11,7 @@ def check_currency_threshold(user_email, currency_shortcut, currency_value, thre
     if currency_value['purchase_rate'] > threshold['lower_limit'] or currency_value['selling_rate'] < threshold['upper_limit']: 
         subject = 'Currency Threshold Exceeded'
         message = f'The {currency_shortcut} value ({currency_value}) has exceeded the threshold ({threshold}).'
-        from_email = 'your@example.com'
+        from_email = 'tempsurnametempname2@gmail.com'
         recipient_list = [user_email]
         send_mail(subject, message, from_email, recipient_list)
 

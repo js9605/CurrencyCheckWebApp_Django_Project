@@ -92,7 +92,7 @@ class ListUserCurrenciesView(APIView):
                     UserCurrencies.objects.filter(user=request.user).update(user_email=user_email)
                     print('DEBUG: User email updated successfully.')
                 else:
-                    print('DEBUG: User email already exists. Please provide a different email.')
+                    print('DEBUG: User email already in usage. Please provide a different email if you want to change it.')
         else:
             print('DEBUG: form error:', form.errors)
 
