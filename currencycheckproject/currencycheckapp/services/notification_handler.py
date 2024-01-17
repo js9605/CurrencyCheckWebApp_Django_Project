@@ -23,7 +23,8 @@ def fetch_currency_values_and_notify():
         print(f"DEBUG: arguments for check_currency_threshold: {user_email, currency_shortcut, currency_rates, threshold}")
 
         # check_currency_threshold.apply_async(args=(user_email, currency_shortcut, currency_rates, threshold))
-        check_currency_threshold.delay(user_email, currency_shortcut, currency_rates, threshold)
+        # check_currency_threshold.delay(user_email, currency_shortcut, currency_rates, threshold)
+        check_currency_threshold.delay(user_email=user_email, currency_shortcut=currency_shortcut, currency_value=currency_rates, threshold=threshold)
 
 @shared_task
 def get_currency_value(user, currency_shortcut) -> dict:
