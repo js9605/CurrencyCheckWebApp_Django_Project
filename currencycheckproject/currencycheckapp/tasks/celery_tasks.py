@@ -4,9 +4,7 @@ from django.core.mail import send_mail
 @shared_task
 def check_currency_threshold(user_email, currency_shortcut, currency_value, threshold):
     
-    print('DEBUG: currency values and threshold limits')
-    print(currency_value['purchase_rate'], threshold['upper_limit'])
-    print(currency_value['selling_rate'], threshold['lower_limit'])
+    print('DEBUG: Enter check_currency_threshold')
 
     if currency_value['purchase_rate'] > threshold['lower_limit'] or currency_value['selling_rate'] < threshold['upper_limit']: 
         subject = 'Currency Threshold Exceeded'
@@ -16,4 +14,4 @@ def check_currency_threshold(user_email, currency_shortcut, currency_value, thre
         send_mail(subject, message, from_email, recipient_list)
 
 
-    print("Currency Threshold Exceeded task completed.")
+    print("DEBUG: check_currency_threshold task completed.")

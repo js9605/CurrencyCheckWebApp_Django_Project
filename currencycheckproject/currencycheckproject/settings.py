@@ -172,7 +172,7 @@ EMAIL_USE_TLS = True
 
 # Set your Gmail email address and password
 EMAIL_HOST_USER = 'tempsurnametempname2@gmail.com'
-EMAIL_HOST_PASSWORD = 'somepassword'
+EMAIL_HOST_PASSWORD = 'somepassword'  # TODO Change before commit
 
 # Default "from" address for emails sent by your application
 DEFAULT_FROM_EMAIL = 'tempsurnametempname2@gmail.com'

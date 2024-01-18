@@ -1,5 +1,5 @@
 from currencycheckapp.tasks.celery_tasks import check_currency_threshold
-from currencycheckproject.currencycheckapp.models import Currency, UserCurrencies
+from currencycheckapp.models import Currency, UserCurrencies
 
 from celery import shared_task
 
