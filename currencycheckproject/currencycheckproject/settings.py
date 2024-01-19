@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'currencycheckapp',
+    'mail'
 ]
 
 MIDDLEWARE = [
@@ -168,11 +169,12 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # SMTP server settings for Gmail
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
 
 # Set your Gmail email address and password
 EMAIL_HOST_USER = 'tempsurnametempname2@gmail.com'
-EMAIL_HOST_PASSWORD = 'somepassword'  # TODO Change before commit
+EMAIL_HOST_PASSWORD = 'passwordHere'  # TODO Change before commit
 
 # Default "from" address for emails sent by your application
 DEFAULT_FROM_EMAIL = 'tempsurnametempname2@gmail.com'
