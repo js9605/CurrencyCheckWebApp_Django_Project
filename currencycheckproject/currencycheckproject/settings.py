@@ -57,7 +57,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'currencycheckapp',
-    'mail'
 ]
 
 MIDDLEWARE = [
