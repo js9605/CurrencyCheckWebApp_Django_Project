@@ -57,7 +57,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'currencycheckapp',
-    'mail'
 ]
 
 MIDDLEWARE = [
@@ -165,20 +164,14 @@ CELERY_IMPORTS = ('currencycheckapp.tasks.celery_tasks','currencycheckapp.servic
 # MAILING SYSTEM SETTINGS
 # Use the SMTP backend for sending emails
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
-# SMTP server settings for Gmail
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_USE_TLS = False
-EMAIL_USE_SSL = True
+EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = False
 
-# Set your Gmail email address and password
 EMAIL_HOST_USER = 'tempsurnametempname2@gmail.com'
-EMAIL_HOST_PASSWORD = 'passwordHere'  # TODO Change before commit
-
-# Default "from" address for emails sent by your application
+EMAIL_HOST_PASSWORD = 'somepassword'  # TODO Change before commit
 DEFAULT_FROM_EMAIL = 'tempsurnametempname2@gmail.com'
-
 # Reply-to address for emails sent by your application
 SERVER_EMAIL = 'tempsurnametempname2@gmail.com'
 
@@ -192,4 +185,4 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 # Optional: Log email messages to the console for debugging
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

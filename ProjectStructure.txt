@@ -9,6 +9,9 @@ currencycheckproject/
 |   |   |-- tasks/
 |   |   |   |-- celery_tasks.py
 |   |   |-- templates/
+|   |   |   |-- display_exchange_rates.html
+|   |   |   |-- list_user_currencies.html
+|   |   |   |-- load_currency_data.html
 |   |   |-- utils/
 |   |   |-- forms.py
 |   |   |-- models.py
