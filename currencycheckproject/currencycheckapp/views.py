@@ -82,7 +82,7 @@ class ListUserCurrenciesView(APIView):
                 currency = get_object_or_404(UserCurrencies, pk=currency_id)
                 currency.upper_limit = form.cleaned_data['upper_limit']
                 currency.lower_limit = form.cleaned_data['lower_limit']
-                print("DEBUG: currency.upper_limit =", currency.upper_limit, " currency.lower_limit =", currency.lower_limit)
+                print("DEBUG: For ",currency.currency_shortcut, " currency.upper_limit =", currency.upper_limit, " currency.lower_limit =", currency.lower_limit, " currency_id: ", currency_id)
                 currency.save()
 
             elif action == 'update_user_email':

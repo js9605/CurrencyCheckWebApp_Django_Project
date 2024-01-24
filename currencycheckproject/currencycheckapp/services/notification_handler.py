@@ -20,7 +20,7 @@ def fetch_currency_values_and_notify():
         currency_rates = get_currency_value(user, currency_shortcut)
         threshold = get_threshold(user, currency_shortcut)
 
-        print(f"DEBUG: arguments for check_currency_threshold: {user_email, currency_shortcut, currency_rates, threshold}")
+        print(f"DEBUG: arguments for check_currency_threshold: {currency_shortcut, user_email, currency_rates, threshold}")
 
         # check_currency_threshold.apply_async(args=(user_email, currency_shortcut, currency_rates, threshold))
         # check_currency_threshold.delay(user_email, currency_shortcut, currency_rates, threshold)
@@ -38,12 +38,12 @@ def get_currency_value(user, currency_shortcut) -> dict:
         return None
 
 @shared_task
-def get_threshold(user, currency_shortcut)  -> dict:
+def get_threshold(user, currency_shortcut) -> dict:
     try:
         user_currency = UserCurrencies.objects.get(user=user, currency_shortcut=currency_shortcut)
         threshold = {'upper_limit': user_currency.upper_limit, 'lower_limit': user_currency.lower_limit}
         return threshold
     
     except UserCurrencies.DoesNotExist:
-        print("DEBUG: UserCurrencies.DoesNotExist in notification_handler.get_threshold")
-        return None
+        print(f"DEBUG: UserCurrencies.DoesNotExist for {user_email} and {currency_shortcut}")
+        return {'upper_limit': None, 'lower_limit': None}
