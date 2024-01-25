@@ -62,7 +62,7 @@ class DeleteUserCurrenciesView(View):
         return HttpResponseRedirect(reverse('list-user-currencies'))
     
     
-class ListUserCurrenciesView(APIView):
+class ListUserCurrenciesView(View):
     def get(self, request, *args, **kwargs):
         user_currencies = UserCurrencies.objects.filter(user=request.user)
         form = CurrencyLimitForm()
@@ -80,10 +80,13 @@ class ListUserCurrenciesView(APIView):
             if action == 'set_limits':
                 currency_id = request.POST.get('currency_id')
                 currency = get_object_or_404(UserCurrencies, pk=currency_id)
-                currency.upper_limit = form.cleaned_data['upper_limit']
-                currency.lower_limit = form.cleaned_data['lower_limit']
-                print("DEBUG: For ",currency.currency_shortcut, " currency.upper_limit =", currency.upper_limit, " currency.lower_limit =", currency.lower_limit, " currency_id: ", currency_id)
-                currency.save()
+                form = CurrencyLimitForm(request.POST, instance=currency)
+
+                if form.is_valid():
+                    form.save()
+                    print("DEBUG: For ", currency.currency_shortcut, " currency.upper_limit =", currency.upper_limit, " currency.lower_limit =", currency.lower_limit, " currency_id: ", currency_id)
+                else:
+                    print('DEBUG: form error:', form.errors)
 
             elif action == 'update_user_email':
                 user_email = request.POST.get('user_email')
