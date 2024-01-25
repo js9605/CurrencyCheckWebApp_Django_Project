@@ -40,10 +40,11 @@ def get_currency_value(user, currency_shortcut) -> dict:
 @shared_task
 def get_threshold(user, currency_shortcut) -> dict:
     try:
-        user_currency = UserCurrencies.objects.get(user=user, currency_shortcut=currency_shortcut)
+        user_currency = UserCurrencies.objects.filter(user=user, currency_shortcut=currency_shortcut).latest('id')
         threshold = {'upper_limit': user_currency.upper_limit, 'lower_limit': user_currency.lower_limit}
+        print(f'DEBUG: in func(get_threshold) for {user_currency} upper_limit: {threshold["upper_limit"]} lower_limit: {threshold["lower_limit"]}')
         return threshold
     
-    except UserCurrencies.DoesNotExist:
-        print(f"DEBUG: UserCurrencies.DoesNotExist for {user_email} and {currency_shortcut}")
+    except Exception as e:
+        print(f"DEBUG: An exception occurred: {e}")
         return {'upper_limit': None, 'lower_limit': None}
