@@ -32,3 +32,4 @@ local_settings.py
 *.pycharm*
 *.DS_Store
 
+currencycheckproject/sqlite3.exe

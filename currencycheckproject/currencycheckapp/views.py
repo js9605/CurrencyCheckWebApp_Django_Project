@@ -5,6 +5,7 @@ from .utils.currency_codes import VALID_CURRENCY_CODES
 from .forms import CurrencyLimitForm
 
 from django.views import View
+from django.db import transaction
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.utils import timezone
@@ -79,11 +80,14 @@ class ListUserCurrenciesView(View):
 
             if action == 'set_limits':
                 currency_id = request.POST.get('currency_id')
+                print(f'DEBUG: set_limits for currency_id: {currency_id}')
                 currency = get_object_or_404(UserCurrencies, pk=currency_id)
                 form = CurrencyLimitForm(request.POST, instance=currency)
-
                 if form.is_valid():
-                    form.save()
+                    with transaction.atomic():
+                        form.save() # method is responsible for updating the database with the changes made to the form instance.
+                        currency.save()
+
                     print("DEBUG: For ", currency.currency_shortcut, " currency.upper_limit =", currency.upper_limit, " currency.lower_limit =", currency.lower_limit, " currency_id: ", currency_id)
                 else:
                     print('DEBUG: form error:', form.errors)

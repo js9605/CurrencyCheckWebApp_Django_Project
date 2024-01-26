@@ -99,6 +99,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite',
+        'AUTOCOMMIT': True,
     }
 }
 
@@ -170,7 +171,7 @@ EMAIL_USE_TLS = True
 # EMAIL_USE_SSL = False
 
 EMAIL_HOST_USER = 'tempsurnametempname2@gmail.com'
-EMAIL_HOST_PASSWORD = 'somepassword'  # TODO Change before commit
+EMAIL_HOST_PASSWORD = 'password'  # TODO Change before commit
 DEFAULT_FROM_EMAIL = 'tempsurnametempname2@gmail.com'
 # Reply-to address for emails sent by your application
 SERVER_EMAIL = 'tempsurnametempname2@gmail.com'
