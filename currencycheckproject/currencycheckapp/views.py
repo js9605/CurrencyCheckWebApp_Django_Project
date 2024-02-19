@@ -1,38 +1,29 @@
-from .serializers import CurrencySerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import permissions
+from rest_framework.generics import get_object_or_404
+from django.shortcuts import render
+from django.utils import timezone
+from django.views.generic import RedirectView
 from .models import Currency, UserCurrencies
+from .serializers import CurrencySerializer, UserCurrenciesSerializer
 from .services.data_loader import scrape_currency_data, update_user_currencies_list
 from .utils.currency_codes import VALID_CURRENCY_CODES
-from .forms import CurrencyLimitForm
-
-from django.views import View
 from django.db import transaction
-from django.urls import reverse
-from django.http import HttpResponseRedirect
-from django.utils import timezone
-from django.contrib import messages
-from django.shortcuts import render, get_object_or_404
-from rest_framework import permissions
-from rest_framework.response import Response
-from rest_framework.views import APIView
-
 
 class DisplayCurrencyDataView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         scrape_currency_data(request.user)
-
         self.delete_old_currencies(request.user)
-
         user_currencies = Currency.objects.filter(user=request.user)
         serializer = CurrencySerializer(user_currencies, many=True)
-
         return render(request, 'display_exchange_rates.html', {'currencies': serializer.data, 'user': request.user})
 
     def delete_old_currencies(self, user):
         cutoff_date = timezone.now() - timezone.timedelta(days=3)
         Currency.objects.filter(user=user, stored_date__lt=cutoff_date).delete()
-
 
 class LoadCurrencyDataView(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -42,7 +33,6 @@ class LoadCurrencyDataView(APIView):
 
     def post(self, request, *args, **kwargs):
         currencies_to_scrape = request.data.get('currencies_to_scrape', 'key_is_not_found').strip().upper()
-
         invalid_currencies = [currency.strip() for currency in currencies_to_scrape.split(',') if currency not in VALID_CURRENCY_CODES]
 
         if invalid_currencies:
@@ -55,52 +45,68 @@ class LoadCurrencyDataView(APIView):
         else:
             return Response({'error': 'Currencies cannot be empty.'}, status=400)
 
+class DeleteUserCurrenciesView(RedirectView):
+    pattern_name = 'list-user-currencies'
 
-class DeleteUserCurrenciesView(View):
-    def post(self, request, pk, *args, **kwargs):
-        currency = get_object_or_404(UserCurrencies, pk=pk)
-        currency.delete()
-        return HttpResponseRedirect(reverse('list-user-currencies'))
-    
-    
-class ListUserCurrenciesView(View):
+    def get_object(self):
+        return get_object_or_404(UserCurrencies, pk=self.kwargs['pk'])
+
+    def get_redirect_url(self, *args, **kwargs):
+        self.get_object().delete()
+        return super().get_redirect_url(*args, **kwargs)
+
+class ListUserCurrenciesView(APIView):
+    template_name = 'list_user_currencies.html'
+
     def get(self, request, *args, **kwargs):
         user_currencies = UserCurrencies.objects.filter(user=request.user)
-        form = CurrencyLimitForm()
-        return render(request, 'list_user_currencies.html', {'user_currencies': user_currencies, 'user': request.user, 'form': form})
+        serializer = UserCurrenciesSerializer(user_currencies, many=True)
+        return render(request, self.template_name, {'user_currencies': serializer.data, 'user': request.user})
 
-    def post(self, request, *args, **kwargs):
-        print('DEBUG: Entered ListUserCurrenciesView.post')
+    def post(self, request):
+        action = request.data.get('action', '')
         user_currencies = UserCurrencies.objects.filter(user=request.user)
-        form = CurrencyLimitForm(request.POST)
+        serializer = UserCurrenciesSerializer(data=request.data)
 
-        if form.is_valid():
-            print('DEBUG: form.is_valid == True')
-            action = request.POST.get('action')
-
+        if serializer.is_valid():
             if action == 'set_limits':
-                currency_id = request.POST.get('currency_id')
-                print(f'DEBUG: set_limits for currency_id: {currency_id}')
-                currency = get_object_or_404(UserCurrencies, pk=currency_id)
-                form = CurrencyLimitForm(request.POST, instance=currency)
-                if form.is_valid():
-                    with transaction.atomic():
-                        form.save() # method is responsible for updating the database with the changes made to the form instance.
-                        currency.save()
-
-                    print("DEBUG: For ", currency.currency_shortcut, " currency.upper_limit =", currency.upper_limit, " currency.lower_limit =", currency.lower_limit, " currency_id: ", currency_id)
-                else:
-                    print('DEBUG: form error:', form.errors)
-
+                self.handle_set_limits(request, user_currencies, serializer)
             elif action == 'update_user_email':
-                user_email = request.POST.get('user_email')
-
-                if not UserCurrencies.objects.filter(user=request.user, user_email=user_email).exists():
-                    UserCurrencies.objects.filter(user=request.user).update(user_email=user_email)
-                    print('DEBUG: User email updated successfully.')
-                else:
-                    print('DEBUG: User email already in usage. Please provide a different email if you want to change it.')
+                self.handle_update_user_email(request, user_currencies, serializer)
         else:
-            print('DEBUG: form error:', form.errors)
+            print('DEBUG: serializer error:', serializer.errors)
 
-        return render(request, 'list_user_currencies.html', {'user_currencies': user_currencies, 'user': request.user, 'form': form})
+        return render(request, self.template_name, {'user_currencies': user_currencies, 'user': request.user})
+
+    # TODO update limits here - check handle_update_user_email. Iterate user_currencies like in handle_update_user_email
+    def handle_set_limits(self, request, user_currencies, serializer):
+        currency_id = request.data.get('currency_id')
+        print(f'DEBUG: set_limits for currency_id: {currency_id}')
+        currency = get_object_or_404(UserCurrencies, pk=currency_id)
+
+        currency.upper_limit = request.data.get('upper_limit')
+        currency.lower_limit = request.data.get('lower_limit')
+
+        serializer = UserCurrenciesSerializer(data=request.data, instance=currency)
+
+        if serializer.is_valid():
+            with transaction.atomic():
+                serializer.save()
+                currency.save()
+                print("DEBUG: For ", currency.currency_shortcut, " currency.upper_limit =", currency.upper_limit, " currency.lower_limit =", currency.lower_limit, " currency_id: ", currency_id)
+        else:
+            print('DEBUG: serializer error:', serializer.errors)
+
+    def handle_update_user_email(self, request, user_currencies, serializer):
+        user_email = request.data.get('user_email')
+
+        # I have to iterate over each UserCurrencies instance (for each saved currency) to be assigned the same email
+        if not UserCurrencies.objects.filter(user=request.user, user_email=user_email).exists():
+            with transaction.atomic():
+                for user_currency in user_currencies:
+                    user_currency.user_email = user_email
+                    user_currency.save()
+
+            print('DEBUG: User email updated successfully.')
+        else:
+            print('DEBUG: User email already in usage. Please provide a different email if you want to change it.')
