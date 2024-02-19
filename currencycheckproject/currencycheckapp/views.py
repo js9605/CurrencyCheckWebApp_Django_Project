@@ -78,11 +78,15 @@ class ListUserCurrenciesView(APIView):
 
         return render(request, self.template_name, {'user_currencies': user_currencies, 'user': request.user})
 
-# TODO update limits here - check email
+    # TODO update limits here - check handle_update_user_email. Iterate user_currencies like in handle_update_user_email
     def handle_set_limits(self, request, user_currencies, serializer):
         currency_id = request.data.get('currency_id')
         print(f'DEBUG: set_limits for currency_id: {currency_id}')
         currency = get_object_or_404(UserCurrencies, pk=currency_id)
+
+        currency.upper_limit = request.data.get('upper_limit')
+        currency.lower_limit = request.data.get('lower_limit')
+
         serializer = UserCurrenciesSerializer(data=request.data, instance=currency)
 
         if serializer.is_valid():

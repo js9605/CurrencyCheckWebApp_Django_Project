@@ -23,3 +23,8 @@ class UserCurrenciesSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserCurrencies
         fields = '__all__'
+        extra_kwargs = {
+            'currency_shortcut': {'required': False},
+            'user': {'required': False},
+            'user_email': {'required': False},
+        }
